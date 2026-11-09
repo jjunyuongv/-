@@ -1,0 +1,226 @@
+# 연소근로자(18세 미만인 자) 표준근로계약서 — 원본 PDF 3쪽, 레이아웃 D
+# 고정 문구는 crates/synth/tests/templates.rs가 assets/forms/extracted/pages/page_03.txt와 대조한다.
+# 스키마: crates/synth/src/template.rs / 항목·라벨 근거: docs/forms_inventory.md 2-1
+
+[meta]
+id = "minor"
+title = "연소근로자(18세 미만인 자) 표준근로계약서"
+source_pages = [3]
+layouts = ["D"]
+
+[slots]
+# 사람·회사 — 사업주 쪽 라벨은 owner = "employer" (1-2 Q1)
+worker_name = { gen = "person_name_ko", label = "NAME", owner = "worker" }
+worker_address = { gen = "address_ko", label = "ADDRESS", owner = "worker" }
+worker_phone = { gen = "mobile_phone", label = "PHONE", owner = "worker" }
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+
+# 근로조건
+start_y = { gen = "date:start:year" }
+start_m = { gen = "date:start:month" }
+start_d = { gen = "date:start:day" }
+workplace = { gen = "workplace", attribute = "workplace_address" }
+job = { gen = "job_title" }
+work_sh = { gen = "time:work_start:hour" }
+work_sm = { gen = "time:work_start:minute" }
+work_eh = { gen = "time:work_end:hour" }
+work_em = { gen = "time:work_end:minute" }
+rest_sh = { gen = "time:rest_start:hour" }
+rest_sm = { gen = "time:rest_start:minute" }
+rest_eh = { gen = "time:rest_end:hour" }
+rest_em = { gen = "time:rest_end:minute" }
+workdays = { gen = "number:workdays_per_week" }
+weekly_holiday = { gen = "weekday" }
+
+# 임금 — SALARY는 준식별 (마스킹 정책으로 켜고 끔)
+wage = { gen = "won:wage", label = "SALARY", owner = "worker" }
+bonus_yes = { kind = "check", group = "bonus", style = "paren" }
+bonus_no = { kind = "check", group = "bonus", style = "paren" }
+bonus = { gen = "won:bonus", label = "SALARY", owner = "worker", requires = "bonus_yes" }
+extra_yes = { kind = "check", group = "extra", style = "paren" }
+extra_no = { kind = "check", group = "extra", style = "paren" }
+extra1_name = { gen = "allowance_name:1", requires = "extra_yes" }
+extra1 = { gen = "won:allowance1", label = "SALARY", owner = "worker", requires = "extra_yes" }
+extra2_name = { gen = "allowance_name:2", requires = "extra_yes" }
+extra2 = { gen = "won:allowance2", label = "SALARY", owner = "worker", requires = "extra_yes" }
+payday = { gen = "number:day_of_month" }
+pay_direct = { kind = "check", group = "pay_method", style = "paren" }
+pay_bank = { kind = "check", group = "pay_method", style = "paren" }
+
+# 사회보험 (여러 개 체크)
+ins_employment = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_accident = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_pension = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_health = { kind = "check", group = "insurance", style = "box", multi = true }
+
+# 가족관계증명서·동의서 (예: "제출", "구비")
+family_cert = { gen = "consent_status:family_cert" }
+consent_doc = { gen = "consent_status:consent" }
+
+contract_y = { gen = "date:contract:year" }
+contract_m = { gen = "date:contract:month" }
+contract_d = { gen = "date:contract:day" }
+
+[[blocks]]
+kind = "title"
+text = "연소근로자(18세 미만인 자) 표준근로계약서"
+
+[[blocks]]
+kind = "paragraph"
+text = "{employer_company}(이하 “사업주”라 함)과(와) {worker_name}(이하 “근로자”라 함)은 다음과 같이 근로계약을 체결한다."
+
+[[blocks]]
+kind = "company_extra"
+
+[[blocks]]
+kind = "paragraph"
+text = "1. 근로개시일 : {start_y}년 {start_m}월 {start_d}일부터"
+
+[[blocks]]
+kind = "paragraph"
+text = "※ 근로계약기간을 정하는 경우에는 “ 년 월 일부터 년 월 일까지” 등으로 기재"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "2. 근 무 장 소 : {workplace}"
+
+[[blocks]]
+kind = "paragraph"
+text = "3. 업무의 내용 : {job}"
+
+[[blocks]]
+kind = "paragraph"
+text = "4. 소정근로시간 : {work_sh}시 {work_sm}분부터 {work_eh}시 {work_em}분까지 (휴게시간 : {rest_sh}시 {rest_sm}분~ {rest_eh}시 {rest_em}분)"
+
+[[blocks]]
+kind = "paragraph"
+text = "5. 근무일/휴일 : 매주 {workdays}일(또는 매일단위)근무, 주휴일 매주 {weekly_holiday}요일"
+
+[[blocks]]
+kind = "paragraph"
+text = "6. 임 금"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 월(일, 시간)급 : {wage}원"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 상여금 : 있음 {bonus_yes} {bonus}원, 없음 {bonus_no}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 기타급여(제수당 등) : 있음 {extra_yes}, 없음 {extra_no}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "· {extra1_name} {extra1}원, {extra2_name} {extra2}원"
+indent = 2
+
+[[blocks]]
+kind = "paragraph"
+text = "- 임금지급일 : 매월(매주 또는 매일) {payday}일(휴일의 경우는 전일 지급)"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 지급방법 : 근로자에게 직접지급{pay_direct}, 근로자 명의 예금통장에 입금{pay_bank}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "7. 연차유급휴가"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 연차유급휴가는 근로기준법에서 정하는 바에 따라 부여함"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "8. 가족관계증명서 및 동의서"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 가족관계기록사항에 관한 증명서 제출 여부: {family_cert}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 친권자 또는 후견인의 동의서 구비 여부 : {consent_doc}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "9. 사회보험 적용여부(해당란에 체크)"
+
+[[blocks]]
+kind = "paragraph"
+text = "{ins_employment} 고용보험 {ins_accident} 산재보험 {ins_pension} 국민연금 {ins_health} 건강보험"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "10. 근로계약서 교부"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 사업주는 근로계약을 체결함과 동시에 본 계약서를 사본하여 근로자의 교부요구와 관계없이 근로자에게 교부함(근로기준법 제17조, 제67조 이행)"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "11. 근로계약, 취업규칙 등의 성실한 이행의무"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 사업주와 근로자는 각자가 근로계약, 취업규칙, 단체협약을 지키고 성실하게 이행하여야 함"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "12. 기타"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 13세 이상 15세 미만인 자에 대해서는 고용노동부장관으로부터 취직인허증을 교부받아야 하며, 이 계약에 정함이 없는 사항은 근로기준법령에 의함"
+indent = 1
+
+[[blocks]]
+kind = "special_terms"
+
+[[blocks]]
+kind = "paragraph"
+text = "{contract_y}년 {contract_m}월 {contract_d}일"
+align = "center"
+
+[[blocks]]
+kind = "signature"
+owner = "employer"
+anchor = "(서명)"
+lines = [
+  "(사업주) 사업체명 : {employer_company} (전화 : {employer_phone})",
+  "주 소 : {employer_address}",
+  "대 표 자 : {employer_rep} (서명)",
+]
+
+[[blocks]]
+kind = "signature"
+owner = "worker"
+anchor = "(서명)"
+lines = [
+  "(근로자) 주 소 : {worker_address}",
+  "연 락 처 : {worker_phone}",
+  "성 명 : {worker_name} (서명)",
+]

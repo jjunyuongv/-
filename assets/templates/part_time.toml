@@ -1,0 +1,269 @@
+# 단시간근로자 표준근로계약서 — 원본 PDF 6쪽, 레이아웃 E (7쪽 기재 예시는 템플릿에서 제외)
+# 고정 문구는 crates/synth/tests/templates.rs가 assets/forms/extracted/pages/page_06.txt와 대조한다.
+# 스키마: crates/synth/src/template.rs / 항목·라벨 근거: docs/forms_inventory.md 2-1
+
+[meta]
+id = "part_time"
+title = "단시간근로자 표준근로계약서"
+source_pages = [6]
+layouts = ["E"]
+
+[slots]
+# 사람·회사 — 사업주 쪽 라벨은 owner = "employer" (1-2 Q1)
+worker_name = { gen = "person_name_ko", label = "NAME", owner = "worker" }
+worker_address = { gen = "address_ko", label = "ADDRESS", owner = "worker" }
+worker_phone = { gen = "mobile_phone", label = "PHONE", owner = "worker" }
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+
+# 근로조건
+start_y = { gen = "date:start:year" }
+start_m = { gen = "date:start:month" }
+start_d = { gen = "date:start:day" }
+workplace = { gen = "workplace", attribute = "workplace_address" }
+job = { gen = "job_title" }
+# 요일별 근로시간 표 (6열)
+d1 = { gen = "weekday:1" }
+h1 = { gen = "number:daily_hours:1" }
+s1h = { gen = "time:day1_start:hour" }
+s1m = { gen = "time:day1_start:minute" }
+e1h = { gen = "time:day1_end:hour" }
+e1m = { gen = "time:day1_end:minute" }
+b1sh = { gen = "time:day1_rest_start:hour" }
+b1sm = { gen = "time:day1_rest_start:minute" }
+b1eh = { gen = "time:day1_rest_end:hour" }
+b1em = { gen = "time:day1_rest_end:minute" }
+d2 = { gen = "weekday:2" }
+h2 = { gen = "number:daily_hours:2" }
+s2h = { gen = "time:day2_start:hour" }
+s2m = { gen = "time:day2_start:minute" }
+e2h = { gen = "time:day2_end:hour" }
+e2m = { gen = "time:day2_end:minute" }
+b2sh = { gen = "time:day2_rest_start:hour" }
+b2sm = { gen = "time:day2_rest_start:minute" }
+b2eh = { gen = "time:day2_rest_end:hour" }
+b2em = { gen = "time:day2_rest_end:minute" }
+d3 = { gen = "weekday:3" }
+h3 = { gen = "number:daily_hours:3" }
+s3h = { gen = "time:day3_start:hour" }
+s3m = { gen = "time:day3_start:minute" }
+e3h = { gen = "time:day3_end:hour" }
+e3m = { gen = "time:day3_end:minute" }
+b3sh = { gen = "time:day3_rest_start:hour" }
+b3sm = { gen = "time:day3_rest_start:minute" }
+b3eh = { gen = "time:day3_rest_end:hour" }
+b3em = { gen = "time:day3_rest_end:minute" }
+d4 = { gen = "weekday:4" }
+h4 = { gen = "number:daily_hours:4" }
+s4h = { gen = "time:day4_start:hour" }
+s4m = { gen = "time:day4_start:minute" }
+e4h = { gen = "time:day4_end:hour" }
+e4m = { gen = "time:day4_end:minute" }
+b4sh = { gen = "time:day4_rest_start:hour" }
+b4sm = { gen = "time:day4_rest_start:minute" }
+b4eh = { gen = "time:day4_rest_end:hour" }
+b4em = { gen = "time:day4_rest_end:minute" }
+d5 = { gen = "weekday:5" }
+h5 = { gen = "number:daily_hours:5" }
+s5h = { gen = "time:day5_start:hour" }
+s5m = { gen = "time:day5_start:minute" }
+e5h = { gen = "time:day5_end:hour" }
+e5m = { gen = "time:day5_end:minute" }
+b5sh = { gen = "time:day5_rest_start:hour" }
+b5sm = { gen = "time:day5_rest_start:minute" }
+b5eh = { gen = "time:day5_rest_end:hour" }
+b5em = { gen = "time:day5_rest_end:minute" }
+d6 = { gen = "weekday:6" }
+h6 = { gen = "number:daily_hours:6" }
+s6h = { gen = "time:day6_start:hour" }
+s6m = { gen = "time:day6_start:minute" }
+e6h = { gen = "time:day6_end:hour" }
+e6m = { gen = "time:day6_end:minute" }
+b6sh = { gen = "time:day6_rest_start:hour" }
+b6sm = { gen = "time:day6_rest_start:minute" }
+b6eh = { gen = "time:day6_rest_end:hour" }
+b6em = { gen = "time:day6_rest_end:minute" }
+weekly_holiday = { gen = "weekday" }
+
+# 임금 — SALARY는 준식별 (마스킹 정책으로 켜고 끔)
+wage = { gen = "won:wage", label = "SALARY", owner = "worker" }
+bonus_yes = { kind = "check", group = "bonus", style = "paren" }
+bonus_no = { kind = "check", group = "bonus", style = "paren" }
+bonus = { gen = "won:bonus", label = "SALARY", owner = "worker", requires = "bonus_yes" }
+extra = { gen = "won:allowance", label = "SALARY", owner = "worker", requires = "!extra_no" }
+extra_no = { kind = "check", group = "extra", style = "paren" }
+ot_rate = { gen = "number:overtime_rate_percent" }
+payday = { gen = "number:day_of_month" }
+pay_direct = { kind = "check", group = "pay_method", style = "paren" }
+pay_bank = { kind = "check", group = "pay_method", style = "paren" }
+
+# 사회보험 (여러 개 체크)
+ins_employment = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_accident = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_pension = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_health = { kind = "check", group = "insurance", style = "box", multi = true }
+
+contract_y = { gen = "date:contract:year" }
+contract_m = { gen = "date:contract:month" }
+contract_d = { gen = "date:contract:day" }
+
+[[blocks]]
+kind = "title"
+text = "단시간근로자 표준근로계약서"
+
+[[blocks]]
+kind = "paragraph"
+text = "{employer_company}(이하 “사업주”라 함)과(와) {worker_name}(이하 “근로자”라 함)은 다음과 같이 근로계약을 체결한다."
+
+[[blocks]]
+kind = "company_extra"
+
+[[blocks]]
+kind = "paragraph"
+text = "1. 근로개시일 : {start_y}년 {start_m}월 {start_d}일부터"
+
+[[blocks]]
+kind = "paragraph"
+text = "※ 근로계약기간을 정하는 경우에는 “ 년 월 일부터 년 월 일까지” 등으로 기재"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "2. 근 무 장 소 : {workplace}"
+
+[[blocks]]
+kind = "paragraph"
+text = "3. 업무의 내용 : {job}"
+
+[[blocks]]
+kind = "paragraph"
+text = "4. 근로일 및 근로일별 근로시간"
+
+[[blocks]]
+kind = "table"
+widths = [0.16, 0.14, 0.14, 0.14, 0.14, 0.14, 0.14]
+rows = [
+  ["", "({d1})요일", "({d2})요일", "({d3})요일", "({d4})요일", "({d5})요일", "({d6})요일"],
+  ["근로시간", "{h1}시간", "{h2}시간", "{h3}시간", "{h4}시간", "{h5}시간", "{h6}시간"],
+  ["시업", "{s1h}시 {s1m}분", "{s2h}시 {s2m}분", "{s3h}시 {s3m}분", "{s4h}시 {s4m}분", "{s5h}시 {s5m}분", "{s6h}시 {s6m}분"],
+  ["종업", "{e1h}시 {e1m}분", "{e2h}시 {e2m}분", "{e3h}시 {e3m}분", "{e4h}시 {e4m}분", "{e5h}시 {e5m}분", "{e6h}시 {e6m}분"],
+  ["휴게 시간", "{b1sh}시 {b1sm}분\n~ {b1eh}시 {b1em}분", "{b2sh}시 {b2sm}분\n~ {b2eh}시 {b2em}분", "{b3sh}시 {b3sm}분\n~ {b3eh}시 {b3em}분", "{b4sh}시 {b4sm}분\n~ {b4eh}시 {b4em}분", "{b5sh}시 {b5sm}분\n~ {b5eh}시 {b5em}분", "{b6sh}시 {b6sm}분\n~ {b6eh}시 {b6em}분"],
+]
+
+[[blocks]]
+kind = "paragraph"
+text = "ㅇ 주휴일 : 매주 {weekly_holiday}요일"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "5. 임 금"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 시간(일, 월)급 : {wage}원(해당사항에 ○표)"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 상여금 : 있음 {bonus_yes} {bonus}원, 없음 {bonus_no}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 기타급여(제수당 등) : 있음 : {extra}원(내역별 기재), 없음 {extra_no},"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 초과근로에 대한 가산임금률: {ot_rate}%"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "※ 단시간근로자와 사용자 사이에 근로하기로 정한 시간을 초과하여 근로하면 법정 근로시간 내라도 통상임금의 100분의 50%이상의 가산임금 지급(’14.9.19. 시행)"
+indent = 2
+
+[[blocks]]
+kind = "paragraph"
+text = "- 임금지급일 : 매월(매주 또는 매일) {payday}일(휴일의 경우는 전일 지급)"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 지급방법 : 근로자에게 직접지급{pay_direct}, 근로자 명의 예금통장에 입금{pay_bank}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "6. 연차유급휴가: 통상근로자의 근로시간에 비례하여 연차유급휴가 부여"
+
+[[blocks]]
+kind = "paragraph"
+text = "7. 사회보험 적용여부(해당란에 체크)"
+
+[[blocks]]
+kind = "paragraph"
+text = "{ins_employment} 고용보험 {ins_accident} 산재보험 {ins_pension} 국민연금 {ins_health} 건강보험"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "8. 근로계약서 교부"
+
+[[blocks]]
+kind = "paragraph"
+text = "- “사업주”는 근로계약을 체결함과 동시에 본 계약서를 사본하여 “근로자”의 교부요구와 관계없이 “근로자”에게 교부함(근로기준법 제17조 이행)"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "9. 근로계약, 취업규칙 등의 성실한 이행의무"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 사업주와 근로자는 각자가 근로계약, 취업규칙, 단체협약을 지키고 성실하게 이행하여야 함"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "10. 기 타"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 이 계약에 정함이 없는 사항은 근로기준법령에 의함"
+indent = 1
+
+[[blocks]]
+kind = "special_terms"
+
+[[blocks]]
+kind = "paragraph"
+text = "{contract_y}년 {contract_m}월 {contract_d}일"
+align = "center"
+
+[[blocks]]
+kind = "signature"
+owner = "employer"
+anchor = "(서명)"
+lines = [
+  "(사업주) 사업체명 : {employer_company} (전화 : {employer_phone})",
+  "주 소 : {employer_address}",
+  "대 표 자 : {employer_rep} (서명)",
+]
+
+[[blocks]]
+kind = "signature"
+owner = "worker"
+anchor = "(서명)"
+lines = [
+  "(근로자) 주 소 : {worker_address}",
+  "연 락 처 : {worker_phone}",
+  "성 명 : {worker_name} (서명)",
+]

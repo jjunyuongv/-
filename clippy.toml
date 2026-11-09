@@ -1,0 +1,3 @@
+# 테스트 코드에서는 unwrap()/expect() 허용
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true

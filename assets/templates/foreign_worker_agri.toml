@@ -1,0 +1,263 @@
+# 외국인근로자 표준근로계약서(농업ㆍ축산업ㆍ어업 분야) [별지 제6호의2서식] — 원본 PDF 10~11쪽(앞·뒤), 레이아웃 C
+# 고정 문구는 crates/synth/tests/templates.rs가 assets/forms/extracted/pages/page_10·11.txt와 대조한다.
+# 스키마: crates/synth/src/template.rs / 항목·라벨 근거: docs/forms_inventory.md 2-3
+#
+# - foreign_worker.toml과 당사자 표·근로계약기간·숙식제공은 같고, 근로시간·휴게·휴일·임금 칸이 다르다
+# - 4~6번 행 오른쪽 주석 칸(근로기준법 제63조 적용 제외)은 여러 행에 걸친 칸 → rowspan
+# - 10쪽 굵은 한글 제목은 PDF에서 곡선이라 텍스트가 없음 (괄호·ㆍ만 텍스트) → meta.not_in_pdf
+
+[meta]
+id = "foreign_worker_agri"
+title = "외국인근로자 표준근로계약서(농업ㆍ축산업ㆍ어업 분야) [별지 제6호의2서식]"
+source_pages = [10, 11]
+layouts = ["C"]
+not_in_pdf = ["표준근로계약서(농업ㆍ축산업ㆍ어업 분야)"]
+
+[slots]
+# 사용자 — 사업주 쪽 라벨은 owner = "employer" (1-2 Q1)
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+employer_id = { owner = "employer", choices = [
+  { when = "individual", gen = "rrn", label = "RRN", ratio = "employer_id_individual.rrn" },
+  { when = "individual", gen = "bizno", label = "BIZ_NO", ratio = "employer_id_individual.bizno" },
+  { when = "corporation", gen = "bizno", hard_negative = true },
+] }
+
+# 근로자
+worker_name = { gen = "person_name_en", label = "NAME", owner = "worker" }
+worker_birth = { gen = "birth_date:foreign", label = "BIRTH_DATE", owner = "worker" }
+worker_home_address = { gen = "address_foreign", label = "ADDRESS", owner = "worker" }
+
+# 1. 근로계약기간
+term_months = { gen = "number:contract_months" }
+chg_sy = { gen = "date:change_start:year" }
+chg_sm = { gen = "date:change_start:month" }
+chg_sd = { gen = "date:change_start:day" }
+chg_ey = { gen = "date:change_end:year" }
+chg_em = { gen = "date:change_end:month" }
+chg_ed = { gen = "date:change_end:day" }
+chg_start_en = { gen = "date:change_start:ymd" }
+chg_end_en = { gen = "date:change_end:ymd" }
+prob_yes = { kind = "check", group = "probation", style = "bracket" }
+prob_no = { kind = "check", group = "probation", style = "bracket" }
+prob_1 = { kind = "check", group = "probation_len", style = "bracket", requires = "prob_yes" }
+prob_2 = { kind = "check", group = "probation_len", style = "bracket", requires = "prob_yes" }
+prob_3 = { kind = "check", group = "probation_len", style = "bracket", requires = "prob_yes" }
+prob_other = { kind = "check", group = "probation_len", style = "bracket", requires = "prob_yes" }
+prob_other_months = { gen = "number:probation_months", requires = "prob_other" }
+
+# 3. 업무내용
+industry = { gen = "industry:agri" }
+business = { gen = "business_desc:agri" }
+job_desc = { gen = "job_desc:agri" }
+
+# 4. 근로시간 (월 단위)
+work_sh = { gen = "time:work_start:hour" }
+work_sm = { gen = "time:work_start:minute" }
+work_eh = { gen = "time:work_end:hour" }
+work_em = { gen = "time:work_end:minute" }
+work_start_en = { gen = "time:work_start:hm" }
+work_end_en = { gen = "time:work_end:hm" }
+month_hours = { gen = "number:monthly_hours" }
+var_hours = { gen = "number:seasonal_variation_hours" }
+
+# 5. 휴게시간
+rest_count = { gen = "number:rest_count" }
+rest_h = { gen = "number:rest_hours" }
+rest_m = { gen = "number:rest_minutes" }
+
+# 6. 휴일 (평상시 / 농번기)
+hol_w1 = { kind = "check", group = "holiday", style = "bracket" }
+hol_m1 = { kind = "check", group = "holiday", style = "bracket" }
+hol_m2 = { kind = "check", group = "holiday", style = "bracket" }
+hol_m3 = { kind = "check", group = "holiday", style = "bracket" }
+hol_etc = { kind = "check", group = "holiday", style = "bracket" }
+hol_etc_text = { gen = "other_note:holiday", requires = "hol_etc" }
+peak_w1 = { kind = "check", group = "peak_holiday", style = "bracket" }
+peak_m1 = { kind = "check", group = "peak_holiday", style = "bracket" }
+peak_m2 = { kind = "check", group = "peak_holiday", style = "bracket" }
+peak_m3 = { kind = "check", group = "peak_holiday", style = "bracket" }
+peak_etc = { kind = "check", group = "peak_holiday", style = "bracket" }
+peak_etc_text = { gen = "other_note:peak_holiday", requires = "peak_etc" }
+
+# 7. 임금 — SALARY는 준식별
+w_hour = { kind = "check", group = "wage_unit", style = "bracket" }
+w_day = { kind = "check", group = "wage_unit", style = "bracket" }
+w_month = { kind = "check", group = "wage_unit", style = "bracket" }
+wage = { gen = "won:wage", label = "SALARY", owner = "worker" }
+bonus_yes = { kind = "check", group = "bonus", style = "bracket" }
+bonus_no = { kind = "check", group = "bonus", style = "bracket" }
+bonus = { gen = "won:bonus", label = "SALARY", owner = "worker", requires = "bonus_yes" }
+allowance = { gen = "won:allowance", label = "SALARY", owner = "worker", requires = "bonus_yes" }
+prob_wage = { gen = "won:probation", label = "SALARY", owner = "worker" }
+prob_period_wage = { gen = "won:probation_3m", label = "SALARY", owner = "worker" }
+ot_hourly = { gen = "won:overtime_hourly", label = "SALARY", owner = "worker" }
+
+# 8·9. 지급일·지급방법
+payday = { gen = "number:day_of_month" }
+payweekday = { gen = "weekday" }
+pay_direct = { kind = "check", group = "pay_method", style = "bracket" }
+pay_bank = { kind = "check", group = "pay_method", style = "bracket" }
+
+# 10. 숙식제공
+acc_yes = { kind = "check", group = "accommodation", style = "bracket" }
+acc_no = { kind = "check", group = "accommodation", style = "bracket" }
+acc_house = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_goshiwon = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_officetel = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_lodging = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_container = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_panel = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_building = { kind = "check", group = "accommodation_type", style = "bracket", requires = "acc_yes" }
+acc_other = { gen = "other_note:accommodation", requires = "acc_yes" }
+acc_cost = { gen = "won:accommodation_cost", requires = "acc_yes" }
+meal_yes = { kind = "check", group = "meal", style = "bracket" }
+meal_no = { kind = "check", group = "meal", style = "bracket" }
+meal_b = { kind = "check", group = "meal_type", style = "bracket", multi = true, requires = "meal_yes" }
+meal_l = { kind = "check", group = "meal_type", style = "bracket", multi = true, requires = "meal_yes" }
+meal_d = { kind = "check", group = "meal_type", style = "bracket", multi = true, requires = "meal_yes" }
+meal_cost = { gen = "won:meal_cost", requires = "meal_yes" }
+
+contract_y = { gen = "date:contract:year" }
+contract_m = { gen = "date:contract:month" }
+contract_d = { gen = "date:contract:day" }
+contract_en = { gen = "date:contract:ymd" }
+
+# ───────────── 앞쪽 (10쪽) ─────────────
+
+[[blocks]]
+kind = "paragraph"
+text = "■ 외국인근로자의 고용 등에 관한 법률 시행규칙 [별지 제6호의2서식] <개정 2019. 0. 00.>"
+
+[[blocks]]
+kind = "title"
+text = "표준근로계약서(농업ㆍ축산업ㆍ어업 분야)"
+
+[[blocks]]
+kind = "title"
+text = "Standard Labor Contract(For Agriculture, Livestock and Fishery Sectors)"
+
+[[blocks]]
+kind = "paragraph"
+text = "(앞쪽)"
+align = "right"
+
+[[blocks]]
+kind = "paragraph"
+text = "아래 당사자는 다음과 같이 근로계약을 체결하고 이를 성실히 이행할 것을 약정한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "The following parties to the contract agree to fully comply with the terms of the contract stated hereinafter."
+
+# 당사자 표
+[[blocks]]
+kind = "table"
+widths = [0.12, 0.44, 0.44]
+rows = [
+  [{ text = "사용자\nEmployer", rowspan = 3 }, "업체명 Name of the enterprise {employer_company}", "전화번호 Phone number {employer_phone}"],
+  [{ text = "소재지 Location of the enterprise {employer_address}", colspan = 2 }],
+  ["성명 Name of the employer {employer_rep}", "사업자등록번호(주민등록번호) Identification number {employer_id}"],
+  [{ text = "근로자\nEmployee", rowspan = 2 }, "성명 Name of the employee {worker_name}", "생년월일 Birthdate {worker_birth}"],
+  [{ text = "본국 주소 Address(Home Country) {worker_home_address}", colspan = 2 }],
+]
+
+# 외국인등록번호·여권번호·국적 등 (회사 추가 항목)
+[[blocks]]
+kind = "company_extra"
+
+# 근로조건 표 (열: 항목 | 내용 | 주석). 4번 내용은 점선으로 나뉜 두 칸
+[[blocks]]
+kind = "table"
+widths = [0.14, 0.6, 0.26]
+rows = [
+  ["1. 근로계약기간", { text = "- 신규 또는 재입국자: ({term_months}) 개월\n- 사업장변경자: {chg_sy}년 {chg_sm}월 {chg_sd}일 ~ {chg_ey}년 {chg_em}월 {chg_ed}일\n* 수습기간: {prob_yes}활용(입국일부터 {prob_1}1개월 {prob_2}2개월 {prob_3}3개월 [{prob_other_months}]개월), {prob_no}미활용\n※ 신규 또는 재입국자의 근로계약기간은 입국일부터 기산함(다만,「외국인근로자의 고용 등에 관한 법률」제18조의4제1항에 따라 재입국(성실재입국)한 경우는 입국하여 근로를 시작한 날부터 기산함).", colspan = 2 }],
+  ["1. Term of Labor contract", { text = "- Newcomers or Re-entering employee: ({term_months}) month(s)\n- Employee who changed workplace: from ({chg_start_en} YY/MM/DD) to ({chg_end_en} YY/MM/DD)\n* Probation period: {prob_yes}Included (for {prob_1}1 month {prob_2}2 months {prob_3}3 months from entry date – or specify other: {prob_other}{prob_other_months}.), {prob_no}Not included.\n※ The employment term for newcomers and re-entering employees will begin on their date of arrival in Korea, while the employment of those who re-entered through the committed workers’ system will commence on their first day of work as stipulated in Article 18-4 (1) of Act on Foreign Workers` Employment, etc.", colspan = 2 }],
+  ["2. 근로장소", { text = "※ 근로자를 이 계약서에서 정한 장소 외에서 근로하게 해서는 안 됨.", colspan = 2 }],
+  ["2. Place of employment", { text = "※ The undersigned employee is not allowed to work apart from the contract enterprise.", colspan = 2 }],
+  ["3. 업무내용", { text = "- 업종: {industry}\n- 사업내용: {business}\n- 직무내용:※ 외국인근로자가 사업장에서 실제 수행하게 될 구체적인 업무를 반드시 상세하게 기재합니다\n(예시, 딸기 재배, 돼지사육 및 축사관리, 어로작업 및 굴양식 등)\n{job_desc}", colspan = 2 }],
+  ["3. Description of work", { text = "- Industry: {industry}\n- Business description: {business}\n- Job description: ※ Detailed duties and responsibilities of the employee must be stated.\n(e.g. strawberry growing, pig care and barn management, fishing and oyster farming, etc.)\n{job_desc}", colspan = 2 }],
+  [{ text = "4. 근로시간", rowspan = 2 }, "- {work_sh}시 {work_sm}분 ~ {work_eh}시 {work_em}분 - 월 ({month_hours})시간", { text = "*「근로기준법」제63조에 따른 농림, 축산, 양잠, 수산 사업의 경우 같은 법에 따른 근로시간, 휴게, 휴일에 관한 규정은 적용받지 않음.\n*In pursuant to the Article 63 of the Labor Standards Act, working hours, recess hours, off-days are not applied to agriculture, forestry, livestock breeding, silk-raising farming and marine product businesses.", rowspan = 6 }],
+  ["※ 농번기, 농한기(어업의 경우 성어기, 휴어기), 계절․기상 요인에 따라 ({var_hours})시간 내에서 변경 가능"],
+  ["4. Working hours", "- Regular working hours: from {work_start_en} to {work_end_en} - ({month_hours}) hours/month\n※ Daily working hours are changeable up to ({var_hours}) hours depending on seasonal work availability and climate changes for the agriculture and fisheries industry (e.g. peak and off-seasons)"],
+  ["5. 휴게시간", "1일 ({rest_count})회, ({rest_h})시간 ({rest_m})분"],
+  ["5. Recess hours", "({rest_count}) times for a total of ({rest_h}) hour(s) ({rest_m}) minute(s) per day"],
+  ["6. 휴일", "{hol_w1} 주1회, {hol_m1} 월1회, {hol_m2} 월2회, {hol_m3} 월3회, {hol_etc} 기타 ({hol_etc_text})\n※ 휴일은 정기적으로 부여하는 것을 원칙으로 하되, 당사자가 협의하여 날짜를 조정할 수 있음.\n농번기(성어기) : {peak_w1}주1회, {peak_m1}월1회, {peak_m2}월2회, {peak_m3}월3회, {peak_etc}기타({peak_etc_text})"],
+  ["6. Holidays", { text = "{hol_w1} 1 time/week, {hol_m1} 1 time/month, {hol_m2} 2 times/month, {hol_m3} 3 times/month {hol_etc} etc. ({hol_etc_text})\n※ Holidays should be given on a regular basis, the employer and employee can change the date through consultation.\nPeak seasons : {peak_w1} 1 time/week, {peak_m1} 1 time/month, {peak_m2} 2 times/month, {peak_m3} 3 times/month, {peak_etc} etc. ({peak_etc_text})", colspan = 2 }],
+]
+
+[[blocks]]
+kind = "paragraph"
+text = "210mm×297mm[백상지(80g/㎡) 또는 중질지(80g/㎡)]"
+align = "right"
+
+# ───────────── 뒤쪽 (11쪽) ─────────────
+
+[[blocks]]
+kind = "page_break"
+
+[[blocks]]
+kind = "paragraph"
+text = "(뒤쪽)"
+align = "right"
+
+[[blocks]]
+kind = "table"
+widths = [0.16, 0.84]
+rows = [
+  ["7. 임금", "1) {w_hour}시간급, {w_day}일급, {w_month}월급: {wage}원\n2) 상여금 및 수당: {bonus_yes}지급(상여금: {bonus}원, 수당: {allowance}원), {bonus_no}미지급\n* 수습기간 중 임금 ({prob_wage})원, 수습시작일부터 3개월 이내 근무기간 ({prob_period_wage})원\n* 근로시간에서 정한 시간을 넘는 연장근로에 대해 시간당 ({ot_hourly})원을 지급함.\n※ 야간근로(당일 22:00~다음날 06:00)에 대해서는 통상임금의 50%를 가산임금으로 지급해야 함(상시근로자 4인 이하 사업장에는 해당되지 않음)."],
+  ["7. Payment", "1) Wage: {wage} won / ({w_hour}Hour /{w_day}Day /{w_month}Month)\n2) Bonus or extra pay: {bonus_yes}Paid, {bonus_no}Unpaid\nIf paid, (bonus: {bonus} won, extra pay: {allowance} won)\n* Wage during probation period: ({prob_wage})won, but for up to the first 3 months of probation period: ({prob_period_wage}) won\n* The employee will be paid at the overtime rate of ({ot_hourly}) won/hour.\n※ A Night shift (from 10PM to 6AM on the next day) will be paid 50% more than the employee's regular rate of pay (This is not applicable to businesses with 4 or less employees)."],
+  ["8. 임금 지급일", "매월 ({payday})일 또는 매주 ({payweekday})요일. 다만, 임금 지급일이 공휴일인 경우에는 전날에 지급함."],
+  ["8. Payment date", "Every ({payday})th day of the month or every ({payweekday} day) of the week. If the payment day falls on a holiday, the payment will be made one day before the holiday."],
+  ["9. 지급방법", "{pay_direct}직접 지급, {pay_bank}통장 입금\n※ 사용자는 근로자 명의로 된 예금통장 및 도장을 관리해서는 안 됨."],
+  ["9. Payment methods", "{pay_direct} In person, {pay_bank} By direct deposit transfer into the employee's account\n※ The employer will not retain the bank book and the seal of the employee."],
+  ["10. 숙식제공", "1) 숙박시설 제공\n- 숙박시설 제공 여부: {acc_yes}제공 {acc_no}미제공\n제공 시, 숙박시설의 유형({acc_house}주택, {acc_goshiwon}고시원, {acc_officetel}오피스텔, {acc_lodging}숙박시설(여관, 호스텔, 펜션 등), {acc_container}컨테이너, {acc_panel}조립식 패널, {acc_building}사업장 건물, 기타 주택형태 시설({acc_other}))\n- 숙박시설 제공 시 근로자 부담금액: 매월 {acc_cost}원\n2) 식사 제공\n- 식사 제공 여부: 제공({meal_b}조식, {meal_l}중식, {meal_d}석식), {meal_no}미제공\n- 식사 제공 시 근로자 부담금액: 매월 {meal_cost}원\n※ 근로자의 비용 부담 수준은 사용자와 근로자 간 협의(신규 또는 재입국자의 경우 입국 이후)에 따라 별도로 결정."],
+  ["10. Accommo-dations and Meals", "1) Provision of accommodation\n- Provision of accommodation: {acc_yes}Provided, {acc_no}Not provided\n(If provided, accommodation types: {acc_house}Detached houses, {acc_goshiwon}Goshiwans, {acc_officetel}Studio flats, {acc_lodging}Lodging facility (such as a motel, hostel, pension hotel, etc.), {acc_container}Container boxes {acc_panel}SIP panel constructions, {acc_building}Rooms within the business building – or specify other housing or boarding facilities {acc_other}.)\n- Cost of accommodation paid by employee: {acc_cost} won/month\n2) Provision of meals\n- Provision of meals: {meal_yes}Provided({meal_b}breakfast, {meal_l}lunch, {meal_d}dinner), {meal_no} Not provided\n- Cost of meals paid by employee: {meal_cost} won/month\n※ The amount of costs paid by employee, will be determined by mutual consultation between the employer and employee (Newcomers and re-entering employees will consult with their employers after arrival in Korea)."],
+]
+
+[[blocks]]
+kind = "paragraph"
+text = "11. 사용자와 근로자는 각자가 근로계약, 취업규칙, 단체협약을 지키고 성실하게 이행하여야 한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "11. Both employees and employers shall comply with collective agreements, rules of employment, and terms of labor contracts and be obliged to fulfill them in good faith."
+
+[[blocks]]
+kind = "paragraph"
+text = "12. 이 계약에서 정하지 않은 사항은「근로기준법」에서 정하는 바에 따른다."
+
+[[blocks]]
+kind = "paragraph"
+text = "12. Other matters not regulated in this contract will follow provisions of the Labor Standards Act."
+
+[[blocks]]
+kind = "special_terms"
+
+[[blocks]]
+kind = "paragraph"
+text = "{contract_y}년 {contract_m}월 {contract_d}일"
+align = "right"
+
+[[blocks]]
+kind = "paragraph"
+text = "{contract_en} (YY/MM/DD)"
+align = "right"
+
+[[blocks]]
+kind = "signature"
+owner = "employer"
+anchor = "(서명 또는 인)"
+lines = ["사용자: {employer_rep} (서명 또는 인)", "Employer: (signature)"]
+
+[[blocks]]
+kind = "signature"
+owner = "worker"
+anchor = "(서명 또는 인)"
+lines = ["근로자: {worker_name} (서명 또는 인)", "Employee: (signature)"]

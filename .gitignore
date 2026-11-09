@@ -1,0 +1,21 @@
+# 빌드
+target/
+
+# 생성 데이터·모델·내려받은 바이너리 (PLAN.md 8장)
+data/
+models/
+vendor/
+
+# 원본 양식·개발용 원자료
+assets/forms/
+assets/synth/source/
+
+# 실험 결과: 리포트·대시보드는 로컬에만 두고, 합성 값이 든 샘플도 있어 전체 제외
+results/
+
+# 로컬 설정
+.claude/settings.local.json
+
+# 규칙 팩 서명 개인키
+*.pem
+*.key

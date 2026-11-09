@@ -1,0 +1,200 @@
+# 홀드아웃 서식 3 — 항목 순서가 섞이고 인적사항이 맨 뒤에 있는 고용 약정서 (원본 양식 없음, 평가 전용)
+#
+# - 순서: 보수 → 특약 → 휴일·보험 → 업무·장소 → 근무시간 → 계약기간 → 서명 → 인적사항 명세.
+# - 머리말에 당사자 이름이 없다. "회사/직원"으로만 부르고 이름은 서명란과 맨 뒤 명세에 나온다.
+# - 특약은 special_terms 블록(문장 풀)을 쓰지 않고 직접 적었다.
+# - sens_* 슬롯의 gen = "literal" / value 와 민감정보 라벨 이름은 기존 템플릿에 예시가 없어 임시로 정한 표기다.
+#   로더·라벨 체계에 맞춰야 하면 이 파일의 [slots] 끝부분만 고치면 된다.
+# - worker_birth는 birth_date 생성기(근로자 본인의 성인 출생일)를 쓴다 (시험 전 표기 맞춤: birth_date:guardian에서 변경).
+# - layouts는 기존 값을 재사용했다 (문단과 표가 섞인 서식).
+
+[meta]
+id = "holdout_shuffled_identity_last"
+title = "고용 약정서"
+source_pages = []
+layouts = ["E"]
+
+[slots]
+# 회사 — 사업주 쪽 라벨은 owner = "employer"
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+
+# 직원
+worker_name = { gen = "person_name_ko", label = "NAME", owner = "worker" }
+worker_birth = { gen = "birth_date", label = "BIRTH_DATE", owner = "worker" }
+worker_rrn = { gen = "rrn", label = "RRN", owner = "worker" }
+worker_address = { gen = "address_ko", label = "ADDRESS", owner = "worker" }
+worker_phone = { gen = "mobile_phone", label = "PHONE", owner = "worker" }
+
+# 근로조건
+start_y = { gen = "date:start:year" }
+start_m = { gen = "date:start:month" }
+start_d = { gen = "date:start:day" }
+workplace = { gen = "workplace", attribute = "workplace_address" }
+job = { gen = "job_title" }
+work_sh = { gen = "time:work_start:hour" }
+work_sm = { gen = "time:work_start:minute" }
+work_eh = { gen = "time:work_end:hour" }
+work_em = { gen = "time:work_end:minute" }
+rest_min = { gen = "number:rest_minutes" }
+workdays = { gen = "number:workdays_per_week" }
+weekly_holiday = { gen = "weekday" }
+
+# 보수 — SALARY는 준식별
+wage = { gen = "won:wage", label = "SALARY", owner = "worker" }
+bonus_yes = { kind = "check", group = "bonus", style = "paren" }
+bonus_no = { kind = "check", group = "bonus", style = "paren" }
+bonus = { gen = "won:bonus", label = "SALARY", owner = "worker", requires = "bonus_yes" }
+payday = { gen = "number:day_of_month" }
+pay_direct = { kind = "check", group = "pay_method", style = "paren" }
+pay_bank = { kind = "check", group = "pay_method", style = "paren" }
+
+# 사회보험 (여러 개 체크)
+ins_employment = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_accident = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_pension = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_health = { kind = "check", group = "insurance", style = "box", multi = true }
+
+contract_y = { gen = "date:contract:year" }
+contract_m = { gen = "date:contract:month" }
+contract_d = { gen = "date:contract:day" }
+
+# 특약 민감정보 — 직접 단어 없이 증상·생활·활동으로 표현 (7개)
+sens_1 = { gen = "literal", value = "지팡이 없이는 오래 걷지 못하는", label = "HEALTH", owner = "worker" }
+sens_2 = { gen = "literal", value = "밥을 먹고 나면 바로 혈당을 재고 배에 주사를 놓아야 하는", label = "HEALTH", owner = "worker" }
+sens_3 = { gen = "literal", value = "술을 끊으려고 매주 화요일 저녁 모임에 나가는", label = "HEALTH", owner = "worker" }
+sens_4 = { gen = "literal", value = "같은 성별의 동반자와 함께 사는 사람", label = "SEX_LIFE", owner = "worker" }
+sens_5 = { gen = "literal", value = "사월 초파일 전후로 절에 묵으며 수행하는", label = "RELIGION", owner = "worker" }
+sens_6 = { gen = "literal", value = "음주운전으로 벌금을 낸 전력이 있다는", label = "CRIMINAL", owner = "worker" }
+sens_7 = { gen = "literal", value = "분회 사무장으로 임금 교섭에 나가는", label = "UNION", owner = "worker" }
+
+[[blocks]]
+kind = "title"
+text = "고용 약정서"
+
+[[blocks]]
+kind = "paragraph"
+text = "회사와 직원은 다음 조건으로 고용 약정을 맺는다. 당사자의 인적사항은 이 문서 끝의 명세에 적는다."
+
+[[blocks]]
+kind = "paragraph"
+text = "가. 보수"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 월 보수 : {wage}원 / 지급일 : 매월 {payday}일"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 성과금 : 있음 {bonus_yes} {bonus}원, 없음 {bonus_no}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 받는 방법 : 직접 수령{pay_direct}, 직원 명의 계좌{pay_bank}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "나. 특약"
+
+[[blocks]]
+kind = "paragraph"
+text = "1) 직원은 {sens_1} 까닭에 매장 순회 업무에서 제외한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "2) 직원이 {sens_2} 점을 고려해 점심시간 뒤 15분을 더 쉬게 한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "3) 직원은 {sens_3} 일정이 있으면 회식과 연장근무에서 빠질 수 있다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "4) 회사는 직원이 {sens_4}임을 존중하여 경조휴가와 가족수당을 배우자에 준하여 적용한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "5) 직원이 {sens_5} 기간에는 연차 사용을 우선 승인한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "6) 회사는 직원이 {sens_6} 사실을 고려하여 회사 차량 운전을 맡기지 않는다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "7) 직원이 {sens_7} 일로 쓰는 시간은 근무시간에 포함한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "다. 쉬는 날과 보험"
+
+[[blocks]]
+kind = "paragraph"
+text = "- 주 {workdays}일 근무, 매주 {weekly_holiday}요일 휴무, 연차는 근로기준법에 따른다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "- 가입 보험 : {ins_employment} 고용 {ins_accident} 산재 {ins_pension} 연금 {ins_health} 건강"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "라. 하는 일과 일하는 곳 : {job} / {workplace}"
+
+[[blocks]]
+kind = "paragraph"
+text = "마. 근무시간 : {work_sh}시 {work_sm}분 ~ {work_eh}시 {work_em}분, 그중 {rest_min}분 휴식"
+
+[[blocks]]
+kind = "paragraph"
+text = "바. 일을 시작하는 날 : {start_y}년 {start_m}월 {start_d}일"
+
+[[blocks]]
+kind = "paragraph"
+text = "약정일 {contract_y}년 {contract_m}월 {contract_d}일"
+align = "center"
+
+[[blocks]]
+kind = "signature"
+owner = "employer"
+anchor = "(직인)"
+lines = ["회사 대표 {employer_rep} (직인)"]
+
+[[blocks]]
+kind = "signature"
+owner = "worker"
+anchor = "(서명)"
+lines = ["직원 {worker_name} (서명)"]
+
+# 인적사항 명세 — 문서 맨 뒤
+[[blocks]]
+kind = "paragraph"
+text = "[당사자 명세]"
+
+[[blocks]]
+kind = "table"
+widths = [0.18, 0.32, 0.18, 0.32]
+rows = [
+  ["회사명", "{employer_company}", "회사 전화", "{employer_phone}"],
+  ["사업장 위치", { text = "{employer_address}", colspan = 3 }],
+  ["직원 성명", "{worker_name}", "출생일", "{worker_birth}"],
+  ["주민등록번호", "{worker_rrn}", "핸드폰", "{worker_phone}"],
+  ["사는 곳", { text = "{worker_address}", colspan = 3 }],
+]

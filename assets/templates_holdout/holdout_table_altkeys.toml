@@ -1,0 +1,152 @@
+# 홀드아웃 서식 1 — 키 이름이 다른 표형 근로계약서 (원본 양식 없음, 평가 전용)
+#
+# - 키 이름을 표준 서식과 다르게 썼다: 근로자명·주민번호·현주소·휴대폰·Name·상호·사업자번호
+# - 특약은 special_terms 블록(문장 풀)을 쓰지 않고 표 셀에 직접 적었다.
+# - sens_* 슬롯의 gen = "literal" / value 와 민감정보 라벨 이름은 기존 템플릿에 예시가 없어 임시로 정한 표기다.
+#   로더·라벨 체계에 맞춰야 하면 이 파일의 [slots] 끝부분만 고치면 된다.
+# - layouts는 기존 값을 재사용했다 (표 위주 서식).
+
+[meta]
+id = "holdout_table_altkeys"
+title = "근로계약서(표형)"
+source_pages = []
+layouts = ["C"]
+
+[slots]
+# 사용자 — 사업주 쪽 라벨은 owner = "employer"
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+employer_id = { owner = "employer", choices = [
+  { when = "individual", gen = "rrn", label = "RRN", ratio = "employer_id_individual.rrn" },
+  { when = "individual", gen = "bizno", label = "BIZ_NO", ratio = "employer_id_individual.bizno" },
+  { when = "corporation", gen = "bizno", hard_negative = true },
+] }
+
+# 근로자 — Name 칸은 영문 표기를 따로 적는 경우 (국문 이름과 음역 일치는 보장하지 않음)
+worker_name = { gen = "person_name_ko", label = "NAME", owner = "worker" }
+worker_name_en = { gen = "person_name_en", label = "NAME", owner = "worker" }
+worker_rrn = { gen = "rrn", label = "RRN", owner = "worker" }
+worker_address = { gen = "address_ko", label = "ADDRESS", owner = "worker" }
+worker_phone = { gen = "mobile_phone", label = "PHONE", owner = "worker" }
+
+# 비상연락처 — 근로자 본인이 아닌 제3자
+emergency_name = { gen = "person_name_ko", label = "NAME", owner = "guardian" }
+emergency_phone = { gen = "mobile_phone", label = "PHONE", owner = "guardian" }
+
+# 근로조건
+start_y = { gen = "date:start:year" }
+start_m = { gen = "date:start:month" }
+start_d = { gen = "date:start:day" }
+workplace = { gen = "workplace", attribute = "workplace_address" }
+job = { gen = "job_title" }
+work_sh = { gen = "time:work_start:hour" }
+work_sm = { gen = "time:work_start:minute" }
+work_eh = { gen = "time:work_end:hour" }
+work_em = { gen = "time:work_end:minute" }
+rest_sh = { gen = "time:rest_start:hour" }
+rest_sm = { gen = "time:rest_start:minute" }
+rest_eh = { gen = "time:rest_end:hour" }
+rest_em = { gen = "time:rest_end:minute" }
+workdays = { gen = "number:workdays_per_week" }
+weekly_holiday = { gen = "weekday" }
+
+# 임금 — SALARY는 준식별
+wage = { gen = "won:wage", label = "SALARY", owner = "worker" }
+bonus_yes = { kind = "check", group = "bonus", style = "paren" }
+bonus_no = { kind = "check", group = "bonus", style = "paren" }
+bonus = { gen = "won:bonus", label = "SALARY", owner = "worker", requires = "bonus_yes" }
+extra_yes = { kind = "check", group = "extra", style = "paren" }
+extra_no = { kind = "check", group = "extra", style = "paren" }
+extra1_name = { gen = "allowance_name:1", requires = "extra_yes" }
+extra1 = { gen = "won:allowance1", label = "SALARY", owner = "worker", requires = "extra_yes" }
+extra2_name = { gen = "allowance_name:2", requires = "extra_yes" }
+extra2 = { gen = "won:allowance2", label = "SALARY", owner = "worker", requires = "extra_yes" }
+payday = { gen = "number:day_of_month" }
+pay_direct = { kind = "check", group = "pay_method", style = "paren" }
+pay_bank = { kind = "check", group = "pay_method", style = "paren" }
+
+# 사회보험 (여러 개 체크)
+ins_employment = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_accident = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_pension = { kind = "check", group = "insurance", style = "box", multi = true }
+ins_health = { kind = "check", group = "insurance", style = "box", multi = true }
+
+contract_y = { gen = "date:contract:year" }
+contract_m = { gen = "date:contract:month" }
+contract_d = { gen = "date:contract:day" }
+
+# 특약 민감정보 — 병명·종교명 같은 직접 단어 없이 증상·생활 제약으로 표현 (6개)
+sens_1 = { gen = "literal", value = "허리를 숙이면 왼쪽 다리까지 저려 오는 증상", label = "HEALTH", owner = "worker" }
+sens_2 = { gen = "literal", value = "손이 떨려 작은 물건을 집기 힘든", label = "HEALTH", owner = "worker" }
+sens_3 = { gen = "literal", value = "왼쪽 귀가 들리지 않고 오른쪽도 입 모양을 봐야 알아듣는", label = "HEALTH", owner = "worker" }
+sens_4 = { gen = "literal", value = "사람이 붐비는 지하철을 타면 숨이 막혀 내리게 되는", label = "HEALTH", owner = "worker" }
+sens_5 = { gen = "literal", value = "매달 피검사를 받고 매일 같은 시각에 약을 챙겨 먹어야 하는", label = "HEALTH", owner = "worker" }
+sens_6 = { gen = "literal", value = "일요일마다 성가대에 서는 신자", label = "RELIGION", owner = "worker" }
+
+[[blocks]]
+kind = "title"
+text = "근로계약서"
+
+[[blocks]]
+kind = "paragraph"
+text = "아래 표에 적은 당사자는 다음 조건으로 근로계약을 체결한다."
+
+# 사용자 표
+[[blocks]]
+kind = "table"
+widths = [0.16, 0.34, 0.16, 0.34]
+rows = [
+  ["상호", "{employer_company}", "사업자번호", "{employer_id}"],
+  ["대표", "{employer_rep}", "사무실", "{employer_phone}"],
+  ["소재지", { text = "{employer_address}", colspan = 3 }],
+]
+
+# 근로자 표
+[[blocks]]
+kind = "table"
+widths = [0.16, 0.34, 0.16, 0.34]
+rows = [
+  ["근로자명", "{worker_name}", "Name", "{worker_name_en}"],
+  ["주민번호", "{worker_rrn}", "휴대폰", "{worker_phone}"],
+  ["현주소", { text = "{worker_address}", colspan = 3 }],
+  ["비상연락 이름", "{emergency_name}", "비상연락 번호", "{emergency_phone}"],
+]
+
+# 근로조건 표
+[[blocks]]
+kind = "table"
+widths = [0.16, 0.34, 0.16, 0.34]
+rows = [
+  ["입사일", "{start_y}. {start_m}. {start_d}.", "근무지", "{workplace}"],
+  ["담당업무", "{job}", "근무요일", "주 {workdays}일"],
+  ["출퇴근", "{work_sh}시 {work_sm}분 ~ {work_eh}시 {work_em}분", "쉬는 시간", "{rest_sh}시 {rest_sm}분 ~ {rest_eh}시 {rest_em}분"],
+  ["쉬는 날", "매주 {weekly_holiday}요일", "연차", "근로기준법에 따름"],
+  ["기본급", "{wage}원", "상여", "있음{bonus_yes} {bonus}원 / 없음{bonus_no}"],
+  ["제수당", { text = "있음{extra_yes} / 없음{extra_no}  {extra1_name} {extra1}원, {extra2_name} {extra2}원", colspan = 3 }],
+  ["급여일", "매월 {payday}일", "수령방법", "현금{pay_direct} / 본인 계좌{pay_bank}"],
+  ["4대보험", { text = "{ins_employment} 고용 {ins_accident} 산재 {ins_pension} 연금 {ins_health} 건강", colspan = 3 }],
+  ["특약", { text = "1. 근로자는 {sens_1}이 있어 10kg 이상 물건 운반에서 제외함.\n2. 근로자가 {sens_2} 점을 고려하여 미세 부품 조립 공정에 배치하지 않음.\n3. 근로자는 {sens_3} 형편이므로 업무 지시는 문자나 메모로 함.\n4. 근로자가 {sens_4} 사정을 고려하여 출근 시각을 1시간 늦춤.\n5. 근로자는 {sens_5} 일정이 있어 매월 1회 오후 조퇴를 쓸 수 있음.\n6. 회사는 근로자가 {sens_6}임을 존중하여 일요일 근무를 배정하지 않음.", colspan = 3 }],
+]
+
+[[blocks]]
+kind = "paragraph"
+text = "작성일 : {contract_y}. {contract_m}. {contract_d}."
+align = "right"
+
+[[blocks]]
+kind = "signature"
+owner = "employer"
+anchor = "(인)"
+lines = ["사용자 대표 : {employer_rep} (인)"]
+
+[[blocks]]
+kind = "signature"
+owner = "worker"
+anchor = "(서명)"
+lines = ["근로자명 : {worker_name} (서명)"]

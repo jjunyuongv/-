@@ -1,0 +1,52 @@
+# SLM 트리거 키워드 초안 (2단계) — 이 단어가 있는 청크만 SLM에 보낸다 (PLAN.md 1장 규칙 팩 "SLM 트리거").
+# 9단계에서 규칙 팩 kr-contract-0.1.0.toml로 옮긴다. 부분 문자열로 비교한다.
+# sensitive.jsonl·sensitive_values.jsonl의 trigger_free 항목은 이 목록의 단어를 하나도 포함하지 않아야 한다
+# (crates/synth/tests/clauses.rs가 검사) → SLM 트리거 누락률 측정용.
+#
+# PLAN.md 1장 예시 13개 + 같은 뜻의 흔한 표현
+
+# HEALTH (장애·임신 포함)
+질병
+질환
+치료
+진단
+장애
+임신
+출산
+투석
+수술
+입원
+통원
+복용
+요양
+
+# UNION
+노동조합
+노조
+조합원
+파업
+쟁의
+
+# CRIMINAL
+전과
+벌금
+범죄
+형사
+징역
+집행유예
+보호관찰
+
+# RELIGION
+종교
+신자
+신앙
+교회
+성당
+사찰
+예배
+
+# POLITICAL
+당원
+정당
+선거
+정치
