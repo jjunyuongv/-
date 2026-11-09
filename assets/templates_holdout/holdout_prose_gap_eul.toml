@@ -1,0 +1,164 @@
+# 홀드아웃 서식 2 — 표 없이 문장으로만 쓴 "갑·을" 계약서 (원본 양식 없음, 평가 전용)
+#
+# - table 블록이 없다. 개인정보는 "키 : 값" 형태가 아니라 문장 속에 들어 있다.
+# - 특약은 special_terms 블록(문장 풀)을 쓰지 않고 조항 문장으로 직접 적었다.
+# - sens_* 슬롯의 gen = "literal" / value 와 민감정보 라벨 이름은 기존 템플릿에 예시가 없어 임시로 정한 표기다.
+#   로더·라벨 체계에 맞춰야 하면 이 파일의 [slots] 끝부분만 고치면 된다.
+# - layouts는 기존 값을 재사용했다 (문단 위주 서식).
+
+[meta]
+id = "holdout_prose_gap_eul"
+title = "근로계약서(갑·을 문장형)"
+source_pages = []
+layouts = ["A"]
+
+[slots]
+# 갑 — 사업주 쪽 라벨은 owner = "employer"
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+
+# 을
+worker_name = { gen = "person_name_ko", label = "NAME", owner = "worker" }
+worker_rrn = { gen = "rrn", label = "RRN", owner = "worker" }
+worker_address = { gen = "address_ko", label = "ADDRESS", owner = "worker" }
+worker_phone = { gen = "mobile_phone", label = "PHONE", owner = "worker" }
+
+# 근로조건
+start_y = { gen = "date:start:year" }
+start_m = { gen = "date:start:month" }
+start_d = { gen = "date:start:day" }
+end_y = { gen = "date:end:year" }
+end_m = { gen = "date:end:month" }
+end_d = { gen = "date:end:day" }
+workplace = { gen = "workplace", attribute = "workplace_address" }
+job = { gen = "job_title" }
+work_sh = { gen = "time:work_start:hour" }
+work_sm = { gen = "time:work_start:minute" }
+work_eh = { gen = "time:work_end:hour" }
+work_em = { gen = "time:work_end:minute" }
+rest_sh = { gen = "time:rest_start:hour" }
+rest_sm = { gen = "time:rest_start:minute" }
+rest_eh = { gen = "time:rest_end:hour" }
+rest_em = { gen = "time:rest_end:minute" }
+workdays = { gen = "number:workdays_per_week" }
+weekly_holiday = { gen = "weekday" }
+
+# 임금 — SALARY는 준식별
+wage = { gen = "won:wage", label = "SALARY", owner = "worker" }
+bonus = { gen = "won:bonus", label = "SALARY", owner = "worker" }
+payday = { gen = "number:day_of_month" }
+
+contract_y = { gen = "date:contract:year" }
+contract_m = { gen = "date:contract:month" }
+contract_d = { gen = "date:contract:day" }
+
+# 특약 민감정보 — 직접 단어 없이 증상·생활·활동으로 표현 (7개)
+sens_1 = { gen = "literal", value = "밤마다 약을 먹어야 겨우 잠이 드는", label = "HEALTH", owner = "worker" }
+sens_2 = { gen = "literal", value = "숨이 차고 가슴이 조여 오는", label = "HEALTH", owner = "worker" }
+sens_3 = { gen = "literal", value = "뱃속 아기가 다섯 달째에 접어든", label = "HEALTH", owner = "worker" }
+sens_4 = { gen = "literal", value = "하루 다섯 번 메카 쪽을 향해 절을 드리는", label = "RELIGION", owner = "worker" }
+sens_5 = { gen = "literal", value = "지회 쟁의대책위원으로 회의에 나가는", label = "UNION", owner = "worker" }
+sens_6 = { gen = "literal", value = "보호관찰소에 매달 얼굴을 비춰야 하는 처지", label = "CRIMINAL", owner = "worker" }
+sens_7 = { gen = "literal", value = "구의원 선거에 나선 후보의 사무장을 맡았던", label = "POLITICAL", owner = "worker" }
+
+[[blocks]]
+kind = "title"
+text = "근로계약서"
+
+[[blocks]]
+kind = "paragraph"
+text = "{employer_company}(대표 {employer_rep}, 이하 “갑”이라 한다)과 {worker_name}(이하 “을”이라 한다)은 아래와 같이 근로계약을 맺고 이를 성실히 지키기로 한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제1조(당사자) 갑의 사업장은 {employer_address}에 있고 전화번호는 {employer_phone}이다. 을은 {worker_address}에 살고 있으며 주민번호는 {worker_rrn}, 휴대전화는 {worker_phone}이다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제2조(계약기간) 이 계약의 기간은 {start_y}년 {start_m}월 {start_d}일부터 {end_y}년 {end_m}월 {end_d}일까지로 한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제3조(업무) 을은 {workplace}에서 {job} 업무를 맡는다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제4조(근무시간) 을의 근무시간은 {work_sh}시 {work_sm}분부터 {work_eh}시 {work_em}분까지로 하고, 그중 {rest_sh}시 {rest_sm}분부터 {rest_eh}시 {rest_em}분까지는 쉬는 시간으로 한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제5조(휴일) 을은 한 주에 {workdays}일 일하고 매주 {weekly_holiday}요일을 유급으로 쉰다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제6조(임금) 갑은 {worker_name}에게 매달 {wage}원을 임금으로 지급하고, 상여금 {bonus}원은 따로 지급한다. 임금은 매달 {payday}일에 을 명의의 통장으로 보내며, 그날이 휴일이면 전날 보낸다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제7조(보험과 휴가) 갑은 을을 고용보험, 산재보험, 국민연금, 건강보험에 가입시키고, 연차유급휴가는 근로기준법에 따라 부여한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "제8조(특약) 갑과 을은 다음 사항을 특별히 약정한다."
+
+[[blocks]]
+kind = "paragraph"
+text = "① 을은 {sens_1} 까닭에 매주 월요일 오전 회의에 참석하지 아니할 수 있다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "② 을이 {sens_2} 날에는 갑은 계단을 오르내리는 작업을 맡기지 아니한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "③ 을이 {sens_3} 점을 고려하여 갑은 야간 근무와 무거운 짐 운반을 시키지 아니한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "④ 을은 {sens_4} 사람이므로 매주 금요일 낮 열두 시부터 한 시간 동안 자리를 비울 수 있다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "⑤ 을이 {sens_5} 일로 자리를 비운 시간은 근무한 것으로 본다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "⑥ 을이 {sens_6}임을 고려하여 갑은 그날 오전에 반차를 허용한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "⑦ 갑은 을이 {sens_7} 사실을 이유로 을에게 불이익을 주지 아니한다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "제9조(그 밖의 사항) 이 계약에 없는 사항은 근로기준법령에 따른다. 갑은 계약 체결과 동시에 이 계약서 사본을 을에게 내준다."
+
+[[blocks]]
+kind = "paragraph"
+text = "{contract_y}년 {contract_m}월 {contract_d}일"
+align = "center"
+
+[[blocks]]
+kind = "signature"
+owner = "employer"
+anchor = "(인)"
+lines = ["갑 {employer_company} 대표 {employer_rep} (인)"]
+
+[[blocks]]
+kind = "signature"
+owner = "worker"
+anchor = "(인)"
+lines = ["을 {worker_name} (인)"]

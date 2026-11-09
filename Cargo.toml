@@ -1,0 +1,51 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "apps/cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+publish = false
+
+[workspace.dependencies]
+# 내부 크레이트
+pii-core = { path = "crates/pii-core" }
+rulepack = { path = "crates/rulepack" }
+synth = { path = "crates/synth" }
+ocr = { path = "crates/ocr" }
+detect-rules = { path = "crates/detect-rules" }
+detect-seal = { path = "crates/detect-seal" }
+detect-ner = { path = "crates/detect-ner" }
+detect-slm = { path = "crates/detect-slm" }
+mask = { path = "crates/mask" }
+eval = { path = "crates/eval" }
+
+# 외부 크레이트 (추가 시 THIRD_PARTY_NOTICES.md에 기록)
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive"] }
+pdfium-render = "0.9.5"
+image = { version = "0.25.10", default-features = false, features = ["png", "jpeg"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+toml = "0.9.8"
+thiserror = "2.0.21"
+rand = { version = "0.10.3", default-features = false }
+rand_chacha = "0.10.0"
+ab_glyph = "0.2.32"
+tiny-skia = "0.12.0"
+krilla = { version = "0.8.2", default-features = false, features = ["raster-images"] }
+oar-ocr = "0.10.2"
+unicode-normalization = "0.1.26"
+regex = "1.13.1"
+ort = { version = "=2.0.0-rc.13", default-features = false, features = ["std", "ndarray", "copy-dylibs", "download-binaries", "tls-native"] }
+tokenizers = { version = "0.23.2", default-features = false, features = ["fancy-regex"] }
+reqwest = { version = "0.13.5", default-features = false, features = ["blocking", "json"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+# CLAUDE.md: 라이브러리 코드에서 unwrap()/expect() 금지 (테스트는 clippy.toml에서 허용)
+unwrap_used = "deny"
+expect_used = "deny"

@@ -1,0 +1,66 @@
+{"id": "n001", "kind": "law_article", "template": "이 계약에 정하지 않은 사항은 근로기준법 제17조 및 제18조에 따른다."}
+{"id": "n002", "kind": "law_article", "template": "연장근로에 대하여는 근로기준법 제56조에 따라 통상임금의 100분의 50 이상을 가산하여 지급한다."}
+{"id": "n003", "kind": "law_article", "template": "해고의 예고는 근로기준법 제26조에 따라 적어도 30일 전에 한다."}
+{"id": "n004", "kind": "law_article", "template": "연차유급휴가는 근로기준법 제60조에서 정한 바에 따른다."}
+{"id": "n005", "kind": "law_article", "template": "퇴직급여는 근로자퇴직급여 보장법 제8조에 따라 계속근로기간 1년에 대하여 30일분 이상의 평균임금으로 지급한다."}
+{"id": "n006", "kind": "law_article", "template": "회사는 최저임금법 제6조에 따라 최저임금액 이상의 임금을 지급한다."}
+{"id": "n007", "kind": "doc_number", "template": "이 계약서는 인사발령 문서번호 {DOC_NO}에 따라 작성되었다."}
+{"id": "n008", "kind": "doc_number", "template": "근로자는 취업규칙(관리번호 {DOC_NO})을 열람하고 그 내용을 확인하였다."}
+{"id": "n009", "kind": "doc_number", "template": "수습 평가 결과는 결재 문서 {DOC_NO}로 통보한다."}
+{"id": "n010", "kind": "doc_number", "template": "본 특약은 {DATE} 시행된 사내 규정({DOC_NO})에 따른다."}
+{"id": "n011", "kind": "doc_number13", "template": "근로자의 4대보험 취득 신고는 접수번호 {DOC_NO13}로 처리되었다."}
+{"id": "n012", "kind": "doc_number13", "template": "회사는 고용노동부 신고번호 {DOC_NO13}에 따라 외국인 고용허가를 받았다."}
+{"id": "n013", "kind": "doc_number13", "template": "근로계약 전자문서 고유번호: {DOC_NO13}"}
+{"id": "n014", "kind": "doc_number13", "template": "본 계약은 전자계약 시스템에서 계약번호 {DOC_NO13}로 관리한다."}
+{"id": "n015", "kind": "doc_number13", "template": "채용 건강진단 결과 통보서 발급번호 {DOC_NO13}를 첨부한다."}
+{"id": "n016", "kind": "company_phone", "template": "근로 관련 문의는 인사팀 대표번호 {COMPANY_PHONE}로 한다."}
+{"id": "n017", "kind": "company_phone", "template": "{COMPANY} 본사 전화번호는 {COMPANY_PHONE}이며, 근무시간 중 개인 용무로 사용하지 않는다."}
+{"id": "n018", "kind": "company_phone", "template": "결근 시에는 출근 시각 전까지 사무실 전화 {COMPANY_PHONE}로 연락한다."}
+{"id": "n019", "kind": "company_phone", "template": "급여 명세서 관련 문의: 경영지원팀 {COMPANY_PHONE}"}
+{"id": "n020", "kind": "company_phone", "template": "근무지가 바뀌면 회사는 현장 사무소 전화번호 {COMPANY_PHONE}을 안내한다."}
+{"id": "n021", "kind": "national_rep", "template": "회사 고객센터 대표번호 {NATIONAL_REP}의 상담 업무는 교대로 담당한다."}
+{"id": "n022", "kind": "national_rep", "template": "근로자는 고객 응대 시 대표번호 {NATIONAL_REP} 외의 번호를 안내하지 않는다."}
+{"id": "n023", "kind": "national_rep", "template": "산업재해 신고는 근로복지공단 고객센터 {NATIONAL_REP}로도 할 수 있다."}
+{"id": "n024", "kind": "national_rep", "template": "고용보험 관련 문의는 고객상담센터 {NATIONAL_REP}로 한다."}
+{"id": "n025", "kind": "internet_phone", "template": "재택근무 시에는 회사가 지급한 인터넷 전화 {INTERNET_PHONE}로 업무 연락을 받는다."}
+{"id": "n026", "kind": "internet_phone", "template": "물류센터 상황실 직통번호는 {INTERNET_PHONE}이다."}
+{"id": "n027", "kind": "internet_phone", "template": "야간 근무자는 비상연락용 사내 전화 {INTERNET_PHONE}을 항시 확인한다."}
+{"id": "n028", "kind": "fax", "template": "병가 신청서는 인사팀 팩스 {FAX}로 제출할 수 있다."}
+{"id": "n029", "kind": "fax", "template": "서류 제출용 팩스번호: {FAX}"}
+{"id": "n030", "kind": "fax", "template": "증빙서류는 현장사무소 팩스 {FAX} 또는 전자우편으로 보낸다."}
+{"id": "n031", "kind": "extension", "template": "근로자의 업무용 내선번호는 {EXTENSION}번으로 한다."}
+{"id": "n032", "kind": "extension", "template": "안전관리자 연락처는 사내 내선 {EXTENSION}번이다."}
+{"id": "n033", "kind": "extension", "template": "급여 문의는 경영지원팀(내선 {EXTENSION})으로 한다."}
+{"id": "n034", "kind": "workplace_mgmt_no", "template": "회사의 고용보험 사업장관리번호는 {WORKPLACE_MGMT_NO}이다."}
+{"id": "n035", "kind": "workplace_mgmt_no", "template": "근로자는 산재보험 적용 사업장(사업장관리번호 {WORKPLACE_MGMT_NO})에서 근무한다."}
+{"id": "n036", "kind": "workplace_mgmt_no", "template": "회사는 국민연금 사업장관리번호 {WORKPLACE_MGMT_NO}로 근로자의 자격 취득을 신고한다."}
+{"id": "n037", "kind": "workplace_mgmt_no", "template": "4대보험 신고 시 사업장관리번호는 {WORKPLACE_MGMT_NO}를 사용한다."}
+{"id": "n038", "kind": "corp_reg_no", "template": "사업주: {COMPANY} (법인등록번호 {CORP_NO})"}
+{"id": "n039", "kind": "corp_reg_no", "template": "회사의 법인등록번호는 {CORP_NO}이며, 근로자는 등기부상 본점 소재지에서 근무한다."}
+{"id": "n040", "kind": "corp_reg_no", "template": "본 계약의 사용자는 법인등록번호 {CORP_NO}인 법인이다."}
+{"id": "n041", "kind": "corp_reg_no", "template": "파견 사업주 법인등록번호: {CORP_NO}"}
+{"id": "n042", "kind": "corp_reg_no", "template": "근로자는 도급인(법인등록번호 {CORP_NO})의 사업장 안전수칙을 준수한다."}
+{"id": "n043", "kind": "corp_reg_no", "template": "회사는 법인등록번호 {CORP_NO}로 외국인 고용허가를 신청하였다."}
+{"id": "n044", "kind": "corp_biz_no", "template": "근로자는 사업자등록번호 {CORP_BIZ_NO}인 회사의 지점에서 근무한다."}
+{"id": "n045", "kind": "corp_biz_no", "template": "원청 사업자등록번호: {CORP_BIZ_NO}"}
+{"id": "n046", "kind": "corp_biz_no", "template": "급여는 사업자등록번호 {CORP_BIZ_NO} 명의로 원천징수한다."}
+{"id": "n047", "kind": "corp_biz_no", "template": "{COMPANY}(사업자등록번호 {CORP_BIZ_NO})의 취업규칙을 적용한다."}
+{"id": "n048", "kind": "rrn_invalid_date", "template": "근로자에게 지급하는 출입카드 일련번호는 {RRN_INVALID}이다."}
+{"id": "n049", "kind": "rrn_invalid_date", "template": "회사 차량 보험 증권번호 {RRN_INVALID}에 근로자를 운전자로 추가한다."}
+{"id": "n050", "kind": "rrn_invalid_date", "template": "지급 장비(노트북) 자산번호: {RRN_INVALID}"}
+{"id": "n051", "kind": "rrn_invalid_date", "template": "유니폼 지급 대장 관리코드 {RRN_INVALID}에 수령 사실을 기록한다."}
+{"id": "n052", "kind": "rrn_invalid_date", "template": "근로자의 사물함 배정번호는 {RRN_INVALID}이다."}
+{"id": "n053", "kind": "min_wage", "template": "{DATE} 기준 최저임금은 시간급 {MIN_WAGE}원이며, 회사는 이보다 적은 임금을 지급하지 않는다."}
+{"id": "n054", "kind": "min_wage", "template": "수습기간 임금은 최저임금 시간급 {MIN_WAGE}원의 100분의 90 이상으로 한다."}
+{"id": "n055", "kind": "min_wage", "template": "최저임금이 바뀌면 시간급은 고시된 금액인 {MIN_WAGE}원으로 자동 조정한다."}
+{"id": "n056", "kind": "amount", "template": "식대는 월 {AMOUNT}원을 비과세 한도 내에서 지급한다."}
+{"id": "n057", "kind": "amount", "template": "회사는 교육비 {AMOUNT}원을 지원하되, 근로자에게 반환을 요구하지 않는다."}
+{"id": "n058", "kind": "zipcode", "template": "근무지 주소의 우편번호는 {ZIPCODE}이다."}
+{"id": "n059", "kind": "zipcode", "template": "서류 반송 주소: 우편번호 {ZIPCODE} 회사 본사 인사팀"}
+{"id": "n060", "kind": "company_account", "template": "급여는 회사 법인 계좌({COMPANY_ACCOUNT})에서 이체한다."}
+{"id": "n061", "kind": "special_number", "template": "임금체불 등 노동 관련 상담은 국번 없이 {SPECIAL_NUMBER}로도 할 수 있다."}
+{"id": "n062", "kind": "special_number", "template": "외국인 근로자는 체류 관련 문의를 국번 없이 {SPECIAL_NUMBER}로 할 수 있다."}
+{"id": "n063", "kind": "special_number", "template": "연금 가입 관련 문의는 공단 상담전화 {SPECIAL_NUMBER}로 한다."}
+{"id": "n064", "kind": "public_rep", "template": "근로자는 고용보험 피보험자격을 관할 고용센터 대표번호 {PUBLIC_REP}로 확인할 수 있다."}
+{"id": "n065", "kind": "public_rep", "template": "직장 내 괴롭힘 신고는 지방고용노동청 대표번호 {PUBLIC_REP}로도 할 수 있다."}
+{"id": "n066", "kind": "public_rep", "template": "건강보험 자격 관련 문의: 공단 대표번호 {PUBLIC_REP}"}

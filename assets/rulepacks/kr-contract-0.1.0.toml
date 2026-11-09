@@ -1,0 +1,191 @@
+# 기본 규칙 팩 — 근로계약서 개인정보 (PLAN.md 1장 "규칙 팩 구성", 9단계)
+# 데이터만 담는다. 검증기 코드는 앱(crates/detect-rules)에 내장, 여기서는 이름만 참조.
+# 숫자는 [0-9]만 (\d·\w 금지 — 팩 로딩에서 거부). 정규식은 정규화 텍스트(NFKC·하이픈 통일·숫자 사이 O→0 등)에 적용,
+# 결과는 원문 위치로 되돌린다. 값을 찾으면 문서 안 같은 문자열도 모두 가린다 (유출 방지 우선).
+# 개발용 세트(data/dev_s41)와 템플릿 문구만 보고 작성 — 평가용 세트는 보지 않음.
+
+[meta]
+name = "kr-contract"
+version = "0.1.0"
+
+# ───────── 고유식별정보 ─────────
+
+[[pattern]]
+id = "id13"
+label = "RRN"   # 검증기가 7번째 자리로 RRN/FRN을 정함
+regex = '[0-9]{6}\s?[-.]?\s?[0-9][0-9*]{6}'
+validator = "id13"
+deny_context = ["법인등록번호", "접수번호", "신고번호", "고유번호", "일련번호", "증권번호", "자산번호", "관리번호", "문서번호", "사업장관리번호"]
+
+[[pattern]]
+id = "passport"
+label = "PASSPORT"
+regex = '[A-Z]{1,2}[0-9]{6,8}[A-Z]?|M[0-9]{3}[A-Z][0-9]{4}|[0-9]{8,9}'
+need_context = ["여권", "Passport", "passport", "PASSPORT"]
+window = 40
+
+[[pattern]]
+id = "driver_license"
+label = "DRIVER_LICENSE"
+regex = '(?:(?:서울|부산|경기|강원|충북|충남|전북|전남|경북|경남|제주|대구|인천|광주|대전|울산)\s?|[0-9]{2}\s?[-.]?\s?)[0-9]{2}\s?[-.]?\s?[0-9]{6}\s?[-.]?\s?[0-9]{2}'
+validator = "license"
+
+# ───────── 연락처·계좌 ─────────
+
+[[pattern]]
+id = "mobile"
+label = "PHONE"
+regex = '01[016789]\s?[-.]?\s?[0-9]{3,4}\s?[-.]?\s?[0-9]{4}'
+deny_context = ["대표번호", "내선", "팩스", "FAX", "fax"]
+window = 12
+
+[[pattern]]
+id = "email"
+label = "EMAIL"
+regex = '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+digit_boundary = false
+
+[[pattern]]
+id = "account"
+label = "ACCOUNT"
+regex = '[0-9]{2,6}(?:(?:\s?[-.]\s?|\s)[0-9]{1,7}){1,4}|[0-9]{10,14}'
+validator = "account"
+need_context = ["계좌", "은행", "예금주", "입금", "Account", "account", "뱅크", "우체국", "새마을금고", "농협", "신협"]
+deny_context = ["법인 계좌", "회사 계좌", "법인계좌", "회사계좌", "사업장관리번호", "사업자등록번호", "법인등록번호"]
+window = 25
+
+# ───────── 사업자·사번·생년월일 ─────────
+
+[[pattern]]
+id = "bizno_individual"
+label = "BIZ_NO"
+regex = '[0-9]{3}\s?[-.]?\s?[0-9]{2}\s?[-.]?\s?[0-9]{5}'
+validator = "bizno_individual"
+deny_context = ["사업장관리번호"]
+
+[[pattern]]
+id = "emp_id"
+label = "EMP_ID"
+regex = '[0-9]{4}-[0-9]{4}|[A-Z]?[0-9]{5,8}'
+need_context = ["사번", "직원번호", "사원번호", "Employee No"]
+window = 15
+
+[[pattern]]
+id = "birth_key"
+label = "BIRTH_DATE"
+regex = '(?:생년월일|Birthdate|Date of Birth)\s*[:：]?\s*(?P<v>[0-9]{1,4}\s*[-./년]\s*[0-9]{1,2}\s*[-./월]\s*[0-9]{1,4}\s*일?|[0-9]{6})'
+group = "v"
+digit_boundary = false
+
+# ───────── 이름 (양식 키·문장 틀) ─────────
+
+[[pattern]]
+id = "name_key_ko"
+label = "NAME"
+regex = '(?:성\s?명|대\s?표\s?자|예금주|비상연락처|사용자\s?:|근로자\s?:)\s*[:：]?\s*(?P<v>[가-힣]{2,4})'
+group = "v"
+digit_boundary = false
+
+[[pattern]]
+id = "name_minor_consent"
+label = "NAME"
+regex = '연소근로자\s+(?P<v>[가-힣]{2,4}?)(?:가|이)\s'
+group = "v"
+digit_boundary = false
+
+[[pattern]]
+id = "name_guardian_sign"
+label = "NAME"
+regex = '친권자\(후견인\)\s+(?P<v>[가-힣]{2,4})\s*\((?:인|서명)'
+group = "v"
+digit_boundary = false
+
+[[pattern]]
+id = "name_key_en"
+label = "NAME"
+regex = '(?:Name of the employe[er]?|Name|근로자\s?[:：]|사용자\s?[:：])\s*[:：]?\s*(?P<v>[A-Z][A-Z.\x27-]+(?:\s[A-Z][A-Z.\x27-]+){0,4})'
+group = "v"
+digit_boundary = false
+
+[[pattern]]
+id = "name_key_en_ko"
+label = "NAME"
+regex = 'Name of the employe[er]?\s*[:：]?\s*(?P<v>[가-힣]{2,4})'
+group = "v"
+digit_boundary = false
+
+[[pattern]]
+id = "name_party_clause"
+label = "NAME"
+regex = '과\(와\)\s*(?P<v>[^\s(][^(\n]{0,40}?)\s*\(이하'
+group = "v"
+digit_boundary = false
+
+# ───────── 주소 ─────────
+
+[[pattern]]
+id = "address_ko"
+label = "ADDRESS"
+regex = '(?:서울특별시|부산광역시|대구광역시|인천광역시|광주광역시|대전광역시|울산광역시|세종특별자치시|전남광주통합특별시|경기도|강원특별자치도|강원도|충청북도|충청남도|전북특별자치도|전라북도|전라남도|경상북도|경상남도|제주특별자치도|서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충북|충남|전북|전남|경북|경남|제주)\s+(?:[가-힣]+(?:시|군|구)\s+){0,2}(?:[가-힣0-9]+(?:읍|면)\s+)?[가-힣0-9.]+(?:로|길)\s*[0-9]+(?:-[0-9]+)?(?:,\s*[^\n\t()]{1,25})?(?:\s*\([^)\n]{1,40}\))?'
+digit_boundary = false
+
+[[pattern]]
+id = "address_home"
+label = "ADDRESS"
+regex = '(?:Address\s?\(Home Country\)|본국\s?주소)\s*[:：]?\s*(?P<v>[^\n\t]{3,80})'
+group = "v"
+digit_boundary = false
+
+# ───────── 이름 오탐 거르기 ─────────
+# NER·규칙이 이름으로 잡은 문자열(공백 제외)이 이 단어면 버림 — 양식 고정 문구 (개발용 세트 확인)
+[name_filter]
+stopwords = [
+  "근무장소", "기타", "제수당", "연락처", "연락", "주소", "임금", "소정", "소정근로", "연소근로", "연소근로자", "연소근",
+  "동의서", "인적사항", "별지", "백상지", "대표", "대표자", "회사명", "성명", "생년월일", "가사도우미", "농번기", "성어기",
+  "사업주", "근로자", "사용자", "친권자", "후견인", "예금주", "비상연락처", "사업체명", "와의", "Birth", "Goshiwans",
+]
+
+# ───────── 필드 영역 마스킹 (이미지·PDF) ─────────
+# 이 키로 시작하는 줄의 값 칸 전체를 가린다 — OCR이 값을 틀리게 읽어도 칸은 가려짐 (ISSUE-002·003, 개발용 세트로 확인).
+# 공백 무시 비교, 줄 앞 8글자 안. 값이 개인정보가 아닌 키(사업체명·회사 전화·사업자등록번호 칸 등)는 넣지 않는다
+[fields]
+keys = [
+  "성명", "주소", "연락처", "주민등록번호", "외국인등록번호", "여권번호", "생년월일", "운전면허번호", "이메일",
+  "급여계좌", "예금주", "비상연락처", "사번", "대표자",
+  "Name of the employee", "Name of the employer", "Birthdate", "Address(Home Country)", "본국주소",
+  "Address in Korea", "Phone in Korea", "Alien Registration No.", "Passport No.",
+]
+
+# ───────── SLM 트리거 (이 단어가 있는 청크만 SLM에 보냄) ─────────
+# 2단계 초안 assets/clauses/slm_triggers_draft.txt와 같은 목록 (초안은 문장 풀 검사용으로 남김)
+[slm]
+triggers = [
+  "질병", "질환", "치료", "진단", "장애", "임신", "출산", "투석", "수술", "입원", "통원", "복용", "요양",
+  "노동조합", "노조", "조합원", "파업", "쟁의",
+  "전과", "벌금", "범죄", "형사", "징역", "집행유예", "보호관찰",
+  "종교", "신자", "신앙", "교회", "성당", "사찰", "예배",
+  "당원", "정당", "선거", "정치",
+  # 개발용 세트 트리거 누락 사례로 보강 (2026-11-08) — 일반 단어만
+  "건강", "검진", "소견", "혐의", "기소", "재판", "지부", "지회", "연대", "교섭",
+]
+# SLM이 이 단어만 돌려주면 버림 (일반 명사 — 특정 민감정보가 아님)
+generic = ["종교", "질병", "질환", "장애", "장애인", "노조", "노동조합", "조합원", "범죄", "범죄경력", "전과", "정당", "당원", "신자", "건강", "치료"]
+
+# ───────── 서명란 ─────────
+[signature]
+# 앞에서부터 우선. 도장이 앵커 글자를 덮어 OCR이 일부만 읽는 경우를 위해 조각도 둠 (개발용 세트 확인)
+anchors = ["(서명 또는 인)", "(서명)", "(인)", "(signature)", "(Signature)", "또는 인)", "서명", "signature"]
+# 이 키 뒤 값이 OCR에서 비어 있으면(손글씨·도장에 가려 못 읽음) 키 오른쪽 칸을 가린다
+empty_value_keys = ["대표자", "성명", "근로자", "사용자", "예금주", "친권자(후견인)"]
+# 앵커("(서명)")가 도장·서명에 가려 안 읽혀도 이 머리로 시작하는 줄은 서명 줄로 본다 (줄 끝 = 앵커)
+sign_line_keys = ["성명", "근로자:", "사용자:", "친권자(후견인)", "대표자"]
+worker = ["근로자", "Employee", "연소근로자"]
+employer = ["사업주", "대표자", "사용자", "Employer", "사업체명"]
+guardian = ["친권자", "후견인"]
+lines_above = 3
+
+# ───────── 마스킹 정책 ─────────
+# 고유식별정보(RRN·FRN·PASSPORT·DRIVER_LICENSE)는 여기서 끌 수 없음 (앱이 거부)
+[policy]
+off = ["SALARY"]
+signature = { worker = true, guardian = true, employer = false, unknown = true }

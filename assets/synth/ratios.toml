@@ -1,0 +1,201 @@
+# 합성 비율 설정 — 템플릿 선택지(choices의 ratio = "표.키")와 값 생성기가 참조한다.
+# 스키마·검증: crates/synth/src/ratios.rs
+#
+# arbitrary = true: 근거 없이 정한 초기값 (1-2 확인, 2026-11-08) → 6단계 데이터 리포트에 "임의로 정한 비율"로 표시.
+# 값을 바꾸면 `cargo test -p synth --test templates`로 템플릿 참조가 맞는지 확인한다.
+
+[ratio.employer_phone_individual]
+note = "개인사업자 사업주 전화: 휴대전화(PHONE, employer) / 회사 대표번호(하드네거티브)"
+arbitrary = true
+used_by = ["template:employer_phone"]
+weights = { mobile = 0.7, company = 0.3 }
+
+[ratio.employer_id_individual]
+note = "외국인 양식 개인사업자 식별번호 칸: 주민등록번호(RRN, employer) / 사업자등록번호(BIZ_NO, employer)"
+arbitrary = true
+used_by = ["template:employer_id"]
+weights = { rrn = 0.4, bizno = 0.6 }
+
+[ratio.company_phone_kind]
+note = "회사 대표번호 생성기(company_phone)의 번호 종류: 유선(지역번호) / 전국 대표번호(15xx·16xx·18xx)"
+arbitrary = true
+used_by = ["generator:company_phone"]
+weights = { landline = 0.6, national = 0.4 }
+
+[ratio.public_rep_kind]
+note = "공공기관 대표번호 생성기(public_rep_number)의 번호 종류: 전국 대표번호(15xx·16xx·18xx) / 정부청사 지역번호 유선(044 세종 등)"
+arbitrary = true
+used_by = ["generator:public_rep_number"]
+weights = { national = 0.6, landline = 0.4 }
+
+[ratio.rrn_kind]
+note = "주민등록번호 종류: 2020.10 이전형(지역번호·체크섬) / 이후형(뒤 6자리 무작위, 체크섬 없음)"
+arbitrary = false  # PLAN.md 3단계 결정: 이후형 30%
+used_by = ["generator:rrn"]
+weights = { legacy = 0.7, post2020 = 0.3 }
+
+# ───────── 4단계: 문서 조립 (used_by = "doc:<결정>") ─────────
+
+[ratio.employer_kind]
+note = "사업주 종류: 개인사업자 / 법인. PLAN 축 2(사업주 서명란 법인 인감 60%)에 맞춰 법인 0.6"
+arbitrary = false
+used_by = ["doc:employer_kind"]
+weights = { individual = 0.4, corporation = 0.6 }
+
+[ratio.industry]
+note = "문서 업종 (건설일용은 건설, 외국인 농업·축산업·어업은 농축수산으로 고정, 외국인 일반은 제조·건설·물류 중에서)"
+arbitrary = true
+used_by = ["doc:industry"]
+weights = { "제조" = 0.25, "물류" = 0.15, "건설" = 0.1, "병원" = 0.1, "유통" = 0.12, "사무" = 0.15, "교육" = 0.05, "농축수산" = 0.05, "가사돌봄" = 0.03 }
+
+[ratio.handwriting_doc]
+note = "손글씨 문서 여부 (그 안 기입 필드의 50~100%를 손글씨로)"
+arbitrary = false  # PLAN.md 4단계: 문서 40%
+used_by = ["doc:handwriting"]
+weights = { yes = 0.4, no = 0.6 }
+
+[ratio.gender]
+note = "근로자·친권자·대표자 성별"
+arbitrary = true
+used_by = ["doc:person"]
+weights = { male = 0.5, female = 0.5 }
+
+[ratio.guardian_relation]
+note = "친권자 동의서의 관계: 부모 / 조부모 / 후견인"
+arbitrary = true
+used_by = ["doc:person"]
+weights = { parent = 0.85, grandparent = 0.1, guardian = 0.05 }
+
+[ratio.guardian_same_address]
+note = "친권자 주소가 연소근로자와 같은 비율"
+arbitrary = true
+used_by = ["doc:person"]
+weights = { same = 0.7, different = 0.3 }
+
+[ratio.check_multi]
+note = "여러 개 체크 가능한 묶음(식사 등, 사회보험은 일부 체크일 때만)에서 칸마다 체크할 확률"
+arbitrary = true
+used_by = ["doc:check"]
+weights = { checked = 0.75, unchecked = 0.25 }
+
+[ratio.insurance_checks]
+note = "사회보험 4칸(고용·산재·국민연금·건강): 모두 체크 / 일부만 체크 (일부면 칸마다 check_multi, 모두 켜지면 하나를 끔)"
+arbitrary = true
+used_by = ["doc:check"]
+weights = { all = 0.9, partial = 0.1 }
+
+[ratio.sensitive_clause]
+note = "특약에 민감정보 문장을 넣는 문서 비율"
+arbitrary = true
+used_by = ["doc:special_terms"]
+weights = { yes = 0.5, no = 0.5 }
+
+# ───────── 4단계: 표기 변형 ─────────
+
+[ratio.number_separator]
+note = "번호 표기 구분자: 하이픈 / 붙여 쓰기 / 공백 / 점"
+arbitrary = true
+used_by = ["doc:format"]
+weights = { hyphen = 0.7, none = 0.15, space = 0.1, dot = 0.05 }
+
+[ratio.fullwidth]
+note = "번호를 전각 숫자로 쓰는 비율"
+arbitrary = true
+used_by = ["doc:format"]
+weights = { fullwidth = 0.05, halfwidth = 0.95 }
+
+[ratio.rrn_mask]
+note = "주민·외국인등록번호 뒷자리를 ******로 가린 채 기재한 비율"
+arbitrary = true
+used_by = ["doc:format"]
+weights = { masked = 0.1, full = 0.9 }
+
+[ratio.address_style]
+note = "주소 표기: 전체(참고항목 포함) / 약식(서울·경기) / 도로명까지만"
+arbitrary = true
+used_by = ["doc:format"]
+weights = { full = 0.5, short = 0.3, road_only = 0.2 }
+
+[ratio.license_style]
+note = "운전면허번호 표기: 숫자 지역코드(11-18-…) / 지역명(경북 18-…)"
+arbitrary = true
+used_by = ["doc:format"]
+weights = { numeric = 0.6, region_name = 0.4 }
+
+[ratio.korean_passport_kind]
+note = "한국 여권번호: 구형(M+8자리) / 신형(M+3+영문+4)"
+arbitrary = true
+used_by = ["doc:format"]
+weights = { old = 0.4, new = 0.6 }
+
+# ───────── 4단계: 서명·도장·지장 (PLAN.md 4단계 표) ─────────
+
+[ratio.sign_method]
+note = "서명란 축 1: 이름 흘림 / 사인(낙서형) / 이름 정자 + 사인 / 지장 / 없음"
+arbitrary = false  # PLAN.md 4단계
+used_by = ["doc:signature"]
+weights = { name_sign = 0.35, scribble = 0.25, print_sign = 0.15, fingerprint = 0.05, none = 0.2 }
+
+[ratio.worker_seal]
+note = "서명란 축 2 (근로자·친권자): 개인 도장 / 없음"
+arbitrary = false  # PLAN.md 4단계
+used_by = ["doc:signature"]
+weights = { personal = 0.2, none = 0.8 }
+
+[ratio.employer_seal_individual]
+note = "서명란 축 2 (개인사업자 사업주): 개인 도장 / 없음. 법인은 항상 법인 인감 → 전체 법인 인감 0.6·개인 도장 0.2·없음 0.2 (PLAN 표)"
+arbitrary = false
+used_by = ["doc:signature"]
+weights = { personal = 0.5, none = 0.5 }
+
+# ───────── 5단계: 열화 덧칠 (쪽마다, D1~D4) ─────────
+
+[ratio.overlay_highlighter]
+note = "쪽에 형광펜 표시 (개인정보·참고 항목 박스 1~2개 위)"
+arbitrary = true
+used_by = ["doc:degrade"]
+weights = { yes = 0.15, no = 0.85 }
+
+[ratio.overlay_copy_watermark]
+note = "쪽에 '사본' 워터마크"
+arbitrary = true
+used_by = ["doc:degrade"]
+weights = { yes = 0.1, no = 0.9 }
+
+[ratio.overlay_fold]
+note = "쪽에 접힌 자국 (가로 1/3·2/3 지점)"
+arbitrary = true
+used_by = ["doc:degrade"]
+weights = { yes = 0.25, no = 0.75 }
+
+[ratio.fax_resolution]
+note = "D4 팩스 해상도: 일반 모드(가로 200 × 세로 100dpi) / 고화질(200 × 200dpi). 일반은 세로 반으로 줄여 이진화 후 줄 반복으로 되돌림"
+arbitrary = true  # 사용자 결정 (2026-11-08), 실제 사용 비율 근거는 없음
+used_by = ["doc:degrade"]
+weights = { normal = 0.7, fine = 0.3 }
+
+# ───────── 5단계: 데이터 세트 배분 ─────────
+
+[ratio.layout_mix]
+note = "레이아웃·양식 배분 (이미지 세트는 건수로 정확히 나눔, 텍스트 세트는 이 비율로 뽑음)"
+arbitrary = false  # PLAN.md 1-2 Q3 결정: A 30(15/15), B 20(10/10), C 15(일반 10/농업 5), D 15, E 10, F 10
+used_by = ["doc:dataset"]
+weights = { A_indefinite = 0.15, A_fixed_term = 0.15, B_indefinite = 0.1, B_fixed_term = 0.1, C_general = 0.1, C_agri = 0.05, D_minor = 0.15, E_part_time = 0.1, F_construction = 0.1 }
+
+[ratio.difficulty_mix]
+note = "이미지 세트 난이도 배분 (건수로 정확히 나눔)"
+arbitrary = false  # PLAN.md 5단계 표: D0~D4 각 20건
+used_by = ["doc:dataset"]
+weights = { D0 = 0.2, D1 = 0.2, D2 = 0.2, D3 = 0.2, D4 = 0.2 }
+
+[ratio.text_company_extra]
+note = "텍스트 세트: 레이아웃 A·D·E·F 문서에 회사 추가 항목을 붙임 (정형 라벨이 목표보다 뒤처지면 강제로 붙임)"
+arbitrary = true
+used_by = ["doc:dataset"]
+weights = { yes = 0.5, no = 0.5 }
+
+[ratio.text_foreign_worker]
+note = "텍스트 세트: 회사 추가 항목을 붙인 국내 양식(A·B·E·F) 문서의 근로자가 외국인 (외국인등록번호·여권)"
+arbitrary = true
+used_by = ["doc:dataset"]
+weights = { yes = 0.3, no = 0.7 }

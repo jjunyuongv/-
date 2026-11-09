@@ -1,0 +1,58 @@
+# 한국인 이름 자료 (3단계 가짜 PII). 스키마·로딩: crates/synth/src/fake/data.rs
+#
+# 성씨 비율(%): 통계청 2015 인구주택총조사 성씨 통계를 바탕으로 한 **근사치** (상위 성씨 + 복성 일부).
+#   합이 100이 아니어도 됨 (가중치로만 씀). 통계 자료라 ratios.toml의 "임의 비율"이 아니다.
+# 이름: 실제 인명 목록이 아니라 세대별로 흔한 음절을 조합한다 (실제 인물과 같아질 가능성을 줄임).
+#   세대 구분: 생년 1995년 미만 → g7080 (1970~80년대생 이름), 1995년 이후 → g2000 (2000년대생 이름)
+#   첫 음절과 둘째 음절이 같으면 버리고 다시 뽑는다.
+
+surnames = [
+  { name = "김", pct = 21.5 }, { name = "이", pct = 14.7 }, { name = "박", pct = 8.4 },
+  { name = "최", pct = 4.7 }, { name = "정", pct = 4.3 }, { name = "강", pct = 2.4 },
+  { name = "조", pct = 2.1 }, { name = "윤", pct = 2.1 }, { name = "장", pct = 2.0 },
+  { name = "임", pct = 1.7 }, { name = "한", pct = 1.5 }, { name = "오", pct = 1.5 },
+  { name = "서", pct = 1.5 }, { name = "신", pct = 1.4 }, { name = "권", pct = 1.4 },
+  { name = "황", pct = 1.4 }, { name = "안", pct = 1.4 }, { name = "송", pct = 1.3 },
+  { name = "전", pct = 1.1 }, { name = "홍", pct = 1.1 }, { name = "유", pct = 1.1 },
+  { name = "고", pct = 0.9 }, { name = "문", pct = 0.9 }, { name = "양", pct = 0.9 },
+  { name = "손", pct = 0.9 }, { name = "배", pct = 0.8 }, { name = "백", pct = 0.8 },
+  { name = "허", pct = 0.7 }, { name = "남", pct = 0.6 }, { name = "심", pct = 0.6 },
+  { name = "주", pct = 0.5 }, { name = "하", pct = 0.5 }, { name = "노", pct = 0.4 },
+  { name = "곽", pct = 0.4 }, { name = "성", pct = 0.4 }, { name = "차", pct = 0.4 },
+  { name = "우", pct = 0.4 }, { name = "구", pct = 0.4 }, { name = "민", pct = 0.3 },
+  { name = "류", pct = 0.3 }, { name = "나", pct = 0.3 }, { name = "진", pct = 0.3 },
+  { name = "지", pct = 0.3 }, { name = "엄", pct = 0.3 }, { name = "채", pct = 0.3 },
+  { name = "원", pct = 0.3 }, { name = "변", pct = 0.3 }, { name = "천", pct = 0.2 },
+  { name = "방", pct = 0.2 }, { name = "공", pct = 0.2 }, { name = "현", pct = 0.2 },
+  { name = "함", pct = 0.2 }, { name = "염", pct = 0.1 }, { name = "여", pct = 0.1 },
+  { name = "추", pct = 0.1 }, { name = "도", pct = 0.1 }, { name = "소", pct = 0.1 },
+  { name = "석", pct = 0.1 }, { name = "선", pct = 0.1 }, { name = "설", pct = 0.1 },
+  { name = "마", pct = 0.1 },
+  # 복성
+  { name = "남궁", pct = 0.04 }, { name = "황보", pct = 0.02 }, { name = "제갈", pct = 0.01 },
+  { name = "선우", pct = 0.01 }, { name = "사공", pct = 0.01 }, { name = "독고", pct = 0.005 },
+]
+
+[[given]]
+generation = "g7080"
+gender = "male"
+first = ["영", "성", "정", "재", "상", "종", "진", "동", "현", "경"]
+second = ["수", "호", "민", "철", "훈", "환", "식", "우", "석", "진"]
+
+[[given]]
+generation = "g7080"
+gender = "female"
+first = ["미", "은", "정", "현", "수", "지", "혜", "경", "선", "영"]
+second = ["영", "희", "숙", "경", "정", "진", "주", "미", "연", "아"]
+
+[[given]]
+generation = "g2000"
+gender = "male"
+first = ["민", "서", "도", "하", "지", "시", "준", "예", "건", "유"]
+second = ["준", "우", "윤", "현", "호", "원", "훈", "혁", "성", "빈"]
+
+[[given]]
+generation = "g2000"
+gender = "female"
+first = ["서", "지", "하", "민", "수", "예", "채", "윤", "다", "유"]
+second = ["연", "윤", "은", "아", "원", "빈", "린", "서", "희", "진"]

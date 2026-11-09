@@ -1,0 +1,142 @@
+# 친권자(후견인) 동의서 — 원본 PDF 4쪽, 레이아웃 D (minor와 한 건으로 묶음)
+# 고정 문구는 crates/synth/tests/templates.rs가 assets/forms/extracted/pages/page_04.txt와 대조한다.
+# 스키마: crates/synth/src/template.rs / 항목·라벨 근거: docs/forms_inventory.md 2-2
+#
+# 레이아웃 D 묶음: worker_*, employer_* 슬롯 이름이 minor.toml과 같다 → 같은 값이 들어간다.
+
+[meta]
+id = "guardian_consent"
+title = "친권자(후견인) 동의서"
+source_pages = [4]
+layouts = ["D"]
+
+[slots]
+# 친권자
+guardian_name = { gen = "person_name_ko", label = "NAME", owner = "guardian" }
+guardian_birth = { gen = "birth_date:guardian", label = "BIRTH_DATE", owner = "guardian" }
+guardian_address = { gen = "address_ko", label = "ADDRESS", owner = "guardian" }
+guardian_phone = { gen = "mobile_phone", label = "PHONE", owner = "guardian" }
+relation = { gen = "relation_guardian", attribute = "relation" }
+
+# 연소근로자 (minor.toml과 공유)
+worker_name = { gen = "person_name_ko", label = "NAME", owner = "worker" }
+worker_age = { gen = "age_minor", attribute = "age" }
+worker_birth = { gen = "birth_date:minor", label = "BIRTH_DATE", owner = "worker" }
+worker_address = { gen = "address_ko", label = "ADDRESS", owner = "worker" }
+worker_phone = { gen = "mobile_phone", label = "PHONE", owner = "worker" }
+
+# 사업장 (minor.toml과 공유) — 사업주 쪽 라벨은 owner = "employer" (1-2 Q1)
+employer_company = { gen = "company_name" }
+employer_address = { gen = "address_ko", attribute = "workplace_address" }
+employer_rep = { gen = "person_name_ko", label = "NAME", owner = "employer" }
+employer_phone = { owner = "employer", choices = [
+  { when = "individual", gen = "mobile_phone", label = "PHONE", ratio = "employer_phone_individual.mobile" },
+  { when = "individual", gen = "company_phone", hard_negative = true, ratio = "employer_phone_individual.company" },
+  { when = "corporation", gen = "company_phone", hard_negative = true },
+] }
+
+consent_y = { gen = "date:consent:year" }
+consent_m = { gen = "date:consent:month" }
+consent_d = { gen = "date:consent:day" }
+
+[[blocks]]
+kind = "title"
+text = "친권자(후견인) 동의서"
+
+[[blocks]]
+kind = "paragraph"
+text = "○ 친권자(후견인) 인적사항"
+
+[[blocks]]
+kind = "paragraph"
+text = "성 명 : {guardian_name}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "생년월일 : {guardian_birth}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "주 소 : {guardian_address}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "연 락 처 : {guardian_phone}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "연소근로자와의 관계 : {relation}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "○ 연소근로자 인적사항"
+
+[[blocks]]
+kind = "paragraph"
+text = "성 명 : {worker_name} (만 {worker_age}세)"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "생년월일 : {worker_birth}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "주 소 : {worker_address}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "연 락 처 : {worker_phone}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "○ 사업장 개요"
+
+[[blocks]]
+kind = "paragraph"
+text = "회 사 명 : {employer_company}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "회사주소 : {employer_address}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "대 표 자 : {employer_rep}"
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "회사전화 : {employer_phone}"
+indent = 1
+
+# 문장 안 이름: 조사 "가"가 이름에 바로 붙는다 (경계 검사 사례)
+[[blocks]]
+kind = "paragraph"
+text = "본인은 위 연소근로자 {worker_name}가 위 사업장에서 근로를 하는 것에 대하여 동의합니다."
+indent = 1
+
+[[blocks]]
+kind = "paragraph"
+text = "{consent_y}년 {consent_m}월 {consent_d}일"
+align = "center"
+
+[[blocks]]
+kind = "signature"
+owner = "guardian"
+anchor = "(인)"
+lines = ["친권자(후견인) {guardian_name} (인)"]
+
+[[blocks]]
+kind = "paragraph"
+text = "첨 부 : 가족관계증명서 1부"

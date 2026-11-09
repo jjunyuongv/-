@@ -1,0 +1,27 @@
+[package]
+name = "pii-mask"
+description = "근로계약서 개인정보 마스킹 PoC CLI"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "pii-mask"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+eval.workspace = true
+image.workspace = true
+mask.workspace = true
+ocr.workspace = true
+pii-core.workspace = true
+synth.workspace = true
+pdfium-render.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

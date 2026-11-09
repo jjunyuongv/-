@@ -1,0 +1,17 @@
+[package]
+name = "mask"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+image.workspace = true
+krilla.workspace = true
+ocr.workspace = true
+pdfium-render.workspace = true
+pii-core.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

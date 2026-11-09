@@ -1,0 +1,105 @@
+# 외국인 근로자 자료 (3단계 가짜 PII, 레이아웃 C). 스키마·로딩: crates/synth/src/fake/data.rs
+#
+# - 고용허가제 주요 송출국 위주. 이름은 실제 인명 목록이 아니라 그 나라에서 흔한 이름 조각의 조합
+# - **이름 순서는 국가별** (`order`): 베트남·캄보디아·우즈베키스탄은 성이 앞, 필리핀·인도네시아·네팔·태국은 이름이 앞,
+#   미얀마는 성이 없음. 표기는 **영문 대문자**가 기본 (여권 표기와 같게)
+# - 성별에 따라 달라지는 조각은 `*_male`·`*_female`로 둔다 (베트남 VAN/THI, 우즈베키스탄 -OV/-OVA 등)
+# - `passport`: 여권번호 형식. L = 영문 대문자, # = 숫자 (형식 근사치 — 실제 발급 규칙 전부를 반영하지는 않음)
+# - `address`: 본국 주소 형식. {num} 번지, {n} 작은 수, {province} 주·도 (주·도 이름은 실제, 나머지는 무작위)
+# - `nationality`: 국적 (라벨 JSON 참고 항목 `nationality`)
+
+[[country]]
+code = "VN"
+nationality = "베트남"
+order = ["family", "middle", "given"]
+family = ["NGUYEN", "TRAN", "LE", "PHAM", "HOANG", "VU", "DANG", "BUI", "DO", "HO"]
+middle_male = ["VAN", "DUC", "MINH", "HUU"]
+middle_female = ["THI", "NGOC", "THU"]
+given_male = ["AN", "BINH", "CUONG", "DUNG", "HAI", "HUNG", "NAM", "QUANG", "TUAN", "THANH"]
+given_female = ["LAN", "LINH", "PHUONG", "YEN", "HOA", "HUONG", "MAI", "TRANG"]
+passport = "L#######"
+address = "So {num}, Thon {n}, {province}, Viet Nam"
+provinces = ["Nghe An", "Thanh Hoa", "Ha Tinh", "Bac Giang", "Hai Duong", "Thai Binh", "Gia Lai"]
+
+[[country]]
+code = "PH"
+nationality = "필리핀"
+order = ["given", "middle", "family"]
+family = ["DELA CRUZ", "RAMOS", "AQUINO", "VILLANUEVA", "CASTILLO", "FLORES", "NAVARRO"]
+middle_male = ["CRUZ", "REYES", "SANTOS", "GARCIA", "BAUTISTA", "MENDOZA"]
+middle_female = ["CRUZ", "REYES", "SANTOS", "GARCIA", "BAUTISTA", "MENDOZA"]
+given_male = ["JOSE", "MARK", "JOHN", "RICARDO", "PAOLO", "JAYSON"]
+given_female = ["MARIA", "ANNA", "KRISTINE", "JOY", "ROSALIE", "MARICEL"]
+passport = "L#######L"
+address = "{num} Purok {n}, Barangay San Isidro, {province}, Philippines"
+provinces = ["Pampanga", "Batangas", "Laguna", "Cebu", "Iloilo", "Pangasinan"]
+
+[[country]]
+code = "ID"
+nationality = "인도네시아"
+order = ["given", "family"]
+family = ["SANTOSO", "PRASETYO", "SETIAWAN", "HIDAYAT", "WIBOWO", "SAPUTRA"]
+given_male = ["BUDI", "AGUS", "EKO", "DEDI", "RIZKY", "ARIF"]
+given_female = ["SITI", "DEWI", "SRI", "RINA", "PUTRI", "AYU"]
+passport = "L#######"
+address = "Jl. Merdeka No. {num}, RT {n}/RW {n}, {province}, Indonesia"
+provinces = ["Jawa Tengah", "Jawa Timur", "Jawa Barat", "Lampung", "Nusa Tenggara Barat"]
+
+[[country]]
+code = "NP"
+nationality = "네팔"
+order = ["given", "middle", "family"]
+family = ["THAPA", "GURUNG", "TAMANG", "SHRESTHA", "RAI", "MAGAR", "KARKI"]
+middle_male = ["BAHADUR", "PRASAD", "KUMAR"]
+middle_female = ["KUMARI", "DEVI"]
+given_male = ["RAM", "HARI", "KRISHNA", "BIKASH", "SURESH", "DIPAK"]
+given_female = ["SITA", "GITA", "SUNITA", "ANITA", "MAYA"]
+passport = "########"
+address = "Ward No. {n}, {province}, Nepal"
+provinces = ["Kathmandu", "Chitwan", "Kaski", "Jhapa", "Rupandehi", "Morang"]
+
+[[country]]
+code = "TH"
+nationality = "태국"
+order = ["given", "family"]
+family = ["SRISAI", "WONGSAWAT", "BOONMA", "SAETANG", "CHAIYAPORN", "THONGDEE"]
+given_male = ["SOMCHAI", "SOMSAK", "PRASERT", "KITTI", "ANAN"]
+given_female = ["SOMSRI", "MALI", "NANTANA", "PORNTIP", "SUDA"]
+passport = "LL#######"
+address = "{num} Moo {n}, {province}, Thailand"
+provinces = ["Udon Thani", "Khon Kaen", "Nakhon Ratchasima", "Ubon Ratchathani", "Chiang Mai"]
+
+[[country]]
+code = "KH"
+nationality = "캄보디아"
+order = ["family", "given"]
+family = ["SOK", "CHAN", "HENG", "LIM", "SENG", "PICH"]
+given_male = ["DARA", "SOPHEAK", "VISAL", "RATHA", "VIBOL"]
+given_female = ["SREYMOM", "CHANTHA", "SOPHEA", "SREYNEANG"]
+passport = "L#######"
+address = "Phum {n}, {province}, Cambodia"
+provinces = ["Kampong Cham", "Prey Veng", "Takeo", "Battambang", "Siem Reap"]
+
+[[country]]
+code = "MM"
+nationality = "미얀마"
+order = ["given", "middle"]
+given_male = ["AUNG", "KYAW", "ZAW", "MIN", "THET"]
+given_female = ["AYE", "THIDA", "SU", "MYAT", "KHIN"]
+middle_male = ["KO KO", "NAING", "HTET", "TUN", "OO"]
+middle_female = ["MON", "NWE", "THET", "WIN", "SANDAR"]
+passport = "LL######"
+address = "No. {num}, Ward {n}, {province}, Myanmar"
+provinces = ["Yangon", "Mandalay", "Bago", "Magway", "Ayeyarwady"]
+
+[[country]]
+code = "UZ"
+nationality = "우즈베키스탄"
+order = ["family", "given"]
+family = ["KARIMOV", "RAHIMOV", "TURSUNOV", "YUSUPOV", "ALIMOV"]
+family_female = ["KARIMOVA", "RAHIMOVA", "TURSUNOVA", "YUSUPOVA", "ALIMOVA"]
+given_male = ["RUSTAM", "BOBUR", "JASUR", "SARDOR", "OTABEK"]
+given_female = ["DILNOZA", "GULNORA", "MADINA", "NODIRA", "ZARINA"]
+passport = "LL#######"
+address = "{num}-uy, {n}-mahalla, {province}, Uzbekistan"
+provinces = ["Samarqand", "Andijon", "Farg'ona", "Namangan", "Qashqadaryo"]

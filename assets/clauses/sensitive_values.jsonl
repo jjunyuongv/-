@@ -1,0 +1,58 @@
+{"id": "v001", "label": "HEALTH", "value": "제2형 당뇨병", "topic": "질환", "trigger_free": true}
+{"id": "v002", "label": "HEALTH", "value": "고혈압", "topic": "질환", "trigger_free": true}
+{"id": "v003", "label": "HEALTH", "value": "허리 디스크", "topic": "근골격", "trigger_free": true}
+{"id": "v004", "label": "HEALTH", "value": "만성 신부전에 따른 혈액 투석", "topic": "질환"}
+{"id": "v005", "label": "HEALTH", "value": "우울증", "topic": "정신건강", "trigger_free": true}
+{"id": "v006", "label": "HEALTH", "value": "공황장애", "topic": "정신건강"}
+{"id": "v007", "label": "HEALTH", "value": "지체장애", "topic": "장애"}
+{"id": "v008", "label": "HEALTH", "value": "시각장애", "topic": "장애"}
+{"id": "v009", "label": "HEALTH", "value": "임신 20주", "topic": "임신"}
+{"id": "v010", "label": "HEALTH", "value": "유방암 수술 후 회복", "topic": "수술"}
+{"id": "v011", "label": "HEALTH", "value": "갑상선 기능 저하증", "topic": "질환", "trigger_free": true}
+{"id": "v012", "label": "HEALTH", "value": "뇌전증", "topic": "질환", "trigger_free": true}
+{"id": "v013", "label": "HEALTH", "value": "양쪽 귀 청력 저하", "topic": "장애", "trigger_free": true}
+{"id": "v014", "label": "HEALTH", "value": "류마티스 관절염", "topic": "질환", "trigger_free": true}
+{"id": "v015", "label": "HEALTH", "value": "만성 B형 간염", "topic": "질환", "trigger_free": true, "no_work_restriction": true}
+{"id": "v016", "label": "HEALTH", "value": "천식", "topic": "질환", "trigger_free": true}
+{"id": "v017", "label": "HEALTH", "value": "손목 터널 증후군", "topic": "근골격", "trigger_free": true}
+{"id": "v018", "label": "HEALTH", "value": "임신성 당뇨", "topic": "임신"}
+{"id": "v019", "label": "HEALTH", "value": "HIV 감염", "topic": "질환", "trigger_free": true, "no_work_restriction": true}
+{"id": "v020", "label": "UNION", "value": "{COMPANY} 노동조합", "topic": "기업별 노조"}
+{"id": "v021", "label": "UNION", "value": "반딧불물류노동조합", "topic": "산별 노조", "industry": "물류"}
+{"id": "v022", "label": "UNION", "value": "{COMPANY} 노동조합 서울지부", "topic": "기업별 노조"}
+{"id": "v023", "label": "UNION", "value": "솔숲건설노동조합 경기지부", "topic": "산별 노조", "industry": "건설"}
+{"id": "v024", "label": "UNION", "value": "무쇠달팽이연대 경기지부", "topic": "산별 노조", "trigger_free": true}
+{"id": "v025", "label": "UNION", "value": "바퀴구름연대 부산지회", "topic": "산별 노조", "trigger_free": true}
+{"id": "v026", "label": "UNION", "value": "{COMPANY} 늘봄돌봄 지회", "topic": "산별 노조", "trigger_free": true, "industry": "병원"}
+{"id": "v027", "label": "UNION", "value": "해바라기서비스연합 마트분과", "topic": "산별 노조", "trigger_free": true, "industry": "유통"}
+{"id": "v028", "label": "UNION", "value": "달맞이대학 비정규직 노동조합", "topic": "비정규직 노조", "industry": "교육"}
+{"id": "v029", "label": "CRIMINAL", "value": "음주운전", "topic": "교통", "trigger_free": true}
+{"id": "v030", "label": "CRIMINAL", "value": "사기", "topic": "재산", "trigger_free": true}
+{"id": "v031", "label": "CRIMINAL", "value": "업무상 횡령", "topic": "재산", "trigger_free": true}
+{"id": "v032", "label": "CRIMINAL", "value": "폭행", "topic": "폭력", "trigger_free": true}
+{"id": "v033", "label": "CRIMINAL", "value": "절도", "topic": "재산", "trigger_free": true}
+{"id": "v034", "label": "CRIMINAL", "value": "무면허 운전", "topic": "교통", "trigger_free": true}
+{"id": "v035", "label": "CRIMINAL", "value": "마약류 관리법 위반", "topic": "약물", "trigger_free": true}
+{"id": "v036", "label": "CRIMINAL", "value": "도박", "topic": "기타", "trigger_free": true}
+{"id": "v037", "label": "CRIMINAL", "value": "상해", "topic": "폭력", "trigger_free": true}
+{"id": "v038", "label": "CRIMINAL", "value": "성범죄", "topic": "성폭력"}
+{"id": "v039", "label": "CRIMINAL", "value": "교통사고처리특례법 위반", "topic": "교통", "trigger_free": true}
+{"id": "v040", "label": "RELIGION", "value": "기독교", "topic": "개신교", "trigger_free": true}
+{"id": "v041", "label": "RELIGION", "value": "천주교", "topic": "천주교", "trigger_free": true}
+{"id": "v042", "label": "RELIGION", "value": "불교", "topic": "불교", "trigger_free": true}
+{"id": "v043", "label": "RELIGION", "value": "원불교", "topic": "원불교", "trigger_free": true}
+{"id": "v044", "label": "RELIGION", "value": "이슬람교", "topic": "이슬람교", "trigger_free": true}
+{"id": "v045", "label": "RELIGION", "value": "여호와의 증인", "topic": "여호와의 증인", "trigger_free": true}
+{"id": "v046", "label": "RELIGION", "value": "천도교", "topic": "천도교", "trigger_free": true}
+{"id": "v047", "label": "RELIGION", "value": "힌두교", "topic": "힌두교", "trigger_free": true}
+{"id": "v048", "label": "RELIGION", "value": "유대교", "topic": "유대교", "trigger_free": true}
+{"id": "v049", "label": "POLITICAL", "value": "은하수당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v050", "label": "POLITICAL", "value": "별무리당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v051", "label": "POLITICAL", "value": "솔바람당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v052", "label": "POLITICAL", "value": "무지개다리당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v053", "label": "POLITICAL", "value": "꽃잔디당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v054", "label": "POLITICAL", "value": "조약돌당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v055", "label": "POLITICAL", "value": "솔방울정치연구회", "topic": "정치 단체"}
+{"id": "v056", "label": "POLITICAL", "value": "민들레당", "topic": "정당 가입", "trigger_free": true}
+{"id": "v057", "label": "HEALTH", "value": "만성 신부전", "topic": "질환", "trigger_free": true}
+{"id": "v058", "label": "HEALTH", "value": "무릎 연골 손상", "topic": "근골격", "trigger_free": true}

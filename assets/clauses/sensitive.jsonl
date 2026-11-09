@@ -1,0 +1,60 @@
+{"id": "s001", "label": "HEALTH", "template": "근로자는 {HEALTH} 치료를 위해 매월 둘째 주 금요일 오후에 병가를 사용할 수 있다.", "values": ["v001", "v002", "v003", "v005", "v006", "v011", "v012", "v014", "v016", "v017", "v019", "v015"]}
+{"id": "s002", "label": "HEALTH", "template": "{WORKER_NAME}은(는) {HEALTH} 진단을 받아 야간근무에서 제외한다.", "restricts_work": true, "values": ["v001", "v002", "v005", "v006", "v011", "v012", "v014", "v016"]}
+{"id": "s003", "label": "HEALTH", "template": "회사는 근로자의 {HEALTH}을(를) 고려하여 중량물 취급 업무를 배정하지 않는다.", "restricts_work": true, "values": ["v003", "v007", "v009", "v010", "v017", "v018"]}
+{"id": "s004", "label": "HEALTH", "template": "근로자가 {HEALTH}(으)로 입원하는 경우 최대 30일까지 유급 병가를 부여한다.", "values": ["v001", "v002", "v003", "v057", "v005", "v006", "v010", "v012", "v014", "v016", "v018", "v019"]}
+{"id": "s005", "label": "HEALTH", "template": "근로자는 {HEALTH} 때문에 정기적으로 통원 치료를 받아야 하므로 출근 시각을 오전 10시로 조정한다.", "values": ["v001", "v002", "v003", "v004", "v005", "v006", "v010", "v011", "v012", "v014", "v015", "v016", "v017", "v018", "v019", "v057", "v058"]}
+{"id": "s006", "label": "HEALTH", "template": "근로자는 장애인 고용 의무에 따라 채용되었으며, 회사는 {HEALTH}에 맞는 보조기기를 지원한다.", "topics": ["장애"]}
+{"id": "s007", "label": "HEALTH", "template": "회사는 근로자가 {HEALTH} 상태임을 고려하여 연장근로와 야간근로를 시키지 않는다.", "restricts_work": true, "values": ["v001", "v002", "v004", "v009", "v012", "v016", "v018"]}
+{"id": "s008", "label": "HEALTH", "template": "근로자는 {HEALTH}(으)로 약을 복용 중이므로 운전 업무에서 제외한다.", "restricts_work": true, "values": ["v001", "v005", "v006", "v012"]}
+{"id": "s009", "label": "HEALTH", "template": "근로자는 입사 전 건강검진에서 {HEALTH} 소견이 있어 6개월마다 재검을 받기로 한다.", "restricts_work": true, "values": ["v001", "v002", "v011"]}
+{"id": "s010", "label": "HEALTH", "template": "근로자는 {HEALTH}(으)로 인해 주 3회 오후 4시에 조기 퇴근하며, 부족한 근무시간은 토요일 오전에 보충한다.", "trigger_free": true, "values": ["v003", "v005", "v014", "v017", "v057"]}
+{"id": "s011", "label": "HEALTH", "template": "회사는 근로자의 {HEALTH}을(를) 감안하여 계단 이동이 없는 1층 사무실에 자리를 배정한다.", "trigger_free": true, "values": ["v003", "v058"]}
+{"id": "s012", "label": "HEALTH", "template": "근로자가 {HEALTH} 때문에 업무 중 쉬어야 하는 경우 휴게실을 자유롭게 이용할 수 있다.", "trigger_free": true, "values": ["v001", "v002", "v005", "v011", "v012", "v014", "v016"]}
+{"id": "s013", "label": "UNION", "template": "근로자는 {UNION} 조합원으로서 단체협약에서 정한 근로조건을 적용받는다."}
+{"id": "s014", "label": "UNION", "template": "회사는 근로자가 {UNION}에 가입한 것을 이유로 불이익한 처우를 하지 않는다."}
+{"id": "s015", "label": "UNION", "template": "근로자는 {UNION} 대의원으로 선출되어 노조 업무를 위한 근로시간 면제를 연 40시간 받는다."}
+{"id": "s016", "label": "UNION", "template": "{WORKER_NAME}은(는) {UNION} 간부로서 노동조합 업무를 위해 월 1회 출장할 수 있다."}
+{"id": "s017", "label": "UNION", "template": "근로자가 {UNION}의 파업에 참가한 기간은 무급으로 처리한다."}
+{"id": "s018", "label": "UNION", "template": "근로자가 {UNION}에서 탈퇴하더라도 이 계약의 근로조건은 변경되지 않는다."}
+{"id": "s019", "label": "UNION", "template": "회사는 {UNION} 소속 근로자의 조합비를 급여에서 공제하여 노조에 전달한다."}
+{"id": "s020", "label": "UNION", "template": "근로자는 {UNION} 대표로서 쟁의 기간 중 회사와의 대화 창구를 맡는다."}
+{"id": "s021", "label": "UNION", "template": "근로자는 입사 후 {UNION} 가입 여부를 스스로 결정하며, 회사는 가입을 강요하거나 방해하지 않는다."}
+{"id": "s022", "label": "UNION", "template": "근로자는 {UNION} 활동을 위해 매월 첫째 주 수요일 오후 2시간 동안 회의에 참석할 수 있다.", "trigger_free": true}
+{"id": "s023", "label": "UNION", "template": "{WORKER_NAME}은(는) {UNION} 교섭위원으로 활동하므로 교섭 기간에는 업무량을 조정한다.", "trigger_free": true}
+{"id": "s024", "label": "UNION", "template": "회사는 근로자가 {UNION} 회원이라는 사실을 인사평가에 반영하지 않는다.", "trigger_free": true}
+{"id": "s025", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL} 전과가 있음을 입사 전에 회사에 알렸으며, 회사는 이를 이유로 차별하지 않는다."}
+{"id": "s026", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL}(으)로 벌금형을 받은 사실이 있어 회사 차량 운전 업무에서 제외한다.", "topics": ["교통"]}
+{"id": "s027", "label": "CRIMINAL", "template": "근로자는 현재 {CRIMINAL}(으)로 집행유예 기간 중이며, 보호관찰 일정이 있는 날에는 근무시간 중 외출을 허용한다."}
+{"id": "s028", "label": "CRIMINAL", "template": "회사는 근로자의 {CRIMINAL} 범죄경력을 이유로 승진에서 불이익을 주지 않는다."}
+{"id": "s029", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL} 사건으로 형사재판이 진행 중이며, 출석일에는 무급 휴가를 사용한다."}
+{"id": "s030", "label": "CRIMINAL", "template": "{WORKER_NAME}은(는) 과거 {CRIMINAL}(으)로 징역형을 선고받은 바 있어 현금 취급 업무를 맡지 않는다.", "topics": ["재산"]}
+{"id": "s031", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL} 관련 수사가 끝날 때까지 고객 응대 업무에서 제외된다.", "topics": ["폭력", "성폭력"]}
+{"id": "s032", "label": "CRIMINAL", "template": "근로자가 재직 중 {CRIMINAL}(으)로 처벌을 받은 경우 즉시 회사에 알려야 한다."}
+{"id": "s033", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL} 혐의로 기소된 사실을 입사 시 회사에 알렸다."}
+{"id": "s034", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL}(으)로 유죄 판결을 받은 사실이 있어 입사 후 1년간 금전 출납 업무를 맡지 않는다.", "trigger_free": true, "topics": ["재산"]}
+{"id": "s035", "label": "CRIMINAL", "template": "근로자는 {CRIMINAL} 사건의 재판 출석을 위해 연 5일의 무급 휴가를 신청할 수 있다.", "trigger_free": true}
+{"id": "s036", "label": "CRIMINAL", "template": "회사는 근로자가 {CRIMINAL} 이력을 스스로 밝힌 것을 이유로 해고하지 않는다.", "trigger_free": true}
+{"id": "s037", "label": "RELIGION", "template": "근로자는 {RELIGION} 신자로서 주일을 지킬 수 있도록 일요일 근무에서 제외한다.", "topics": ["개신교", "천주교"]}
+{"id": "s038", "label": "RELIGION", "template": "회사는 근로자의 {RELIGION} 신앙을 존중하여 금요일 정오 무렵 합동 예배에 참석할 수 있도록 1시간을 허용한다.", "topics": ["이슬람교"]}
+{"id": "s039", "label": "RELIGION", "template": "근로자는 {RELIGION} 종교 행사 참석을 위해 연 3일의 무급 휴가를 사용할 수 있다.", "topics": ["개신교", "천주교", "불교", "원불교", "이슬람교", "여호와의 증인", "천도교", "힌두교", "유대교"]}
+{"id": "s040", "label": "RELIGION", "template": "회사는 근로자가 {RELIGION}의 음식 계율을 지킬 수 있도록 회사 식당에서 별도 식단을 제공한다.", "topics": ["이슬람교", "힌두교", "유대교", "불교"]}
+{"id": "s041", "label": "RELIGION", "template": "{WORKER_NAME}은(는) {RELIGION} 성직자로 활동하고 있어 주말 근무를 하지 않는다.", "topics": ["개신교", "불교", "원불교", "천도교"]}
+{"id": "s042", "label": "RELIGION", "template": "근로자는 {RELIGION} 수요 예배에 참석하기 위해 수요일 저녁 연장근로에서 제외된다.", "topics": ["개신교"]}
+{"id": "s043", "label": "RELIGION", "template": "회사는 근로자가 {RELIGION}을(를) 믿는다는 이유로 업무 배치에 차별을 두지 않는다.", "topics": ["개신교", "천주교", "불교", "원불교", "이슬람교", "여호와의 증인", "천도교", "힌두교", "유대교"]}
+{"id": "s044", "label": "RELIGION", "template": "근로자는 {RELIGION} 명절 기간에 연차휴가를 우선 사용할 수 있다.", "topics": ["개신교", "천주교", "불교", "원불교", "이슬람교", "천도교", "힌두교", "유대교"]}
+{"id": "s045", "label": "RELIGION", "template": "근로자는 {RELIGION} 신자이므로 회식 자리에서 음주를 강요받지 않는다.", "topics": ["개신교", "이슬람교"]}
+{"id": "s046", "label": "RELIGION", "template": "근로자는 {RELIGION}의 안식일을 지키기 위해 금요일 해 질 무렵부터 토요일까지 근무하지 않는다.", "trigger_free": true, "topics": ["유대교"]}
+{"id": "s047", "label": "RELIGION", "template": "회사는 근로자가 {RELIGION} 행사에 참석하는 날에는 근무시간을 2시간 앞당겨 조정해 준다.", "trigger_free": true, "topics": ["개신교", "천주교", "불교", "원불교", "이슬람교", "여호와의 증인", "천도교", "힌두교", "유대교"]}
+{"id": "s048", "label": "RELIGION", "template": "근로자는 {RELIGION}의 음식 계율에 따라 먹지 않는 음식이 있으므로 회식 메뉴를 정할 때 이를 고려한다.", "trigger_free": true, "topics": ["이슬람교", "힌두교", "유대교", "불교"]}
+{"id": "s049", "label": "POLITICAL", "template": "근로자는 {POLITICAL} 당원으로서 선거 기간에 연차휴가를 사용해 선거운동에 참여할 수 있다.", "topics": ["정당 가입"]}
+{"id": "s050", "label": "POLITICAL", "template": "회사는 근로자의 {POLITICAL} 가입 사실을 이유로 불이익을 주지 않는다."}
+{"id": "s051", "label": "POLITICAL", "template": "근로자는 {POLITICAL} 소속으로 지방선거에 출마하는 경우 30일 전까지 회사에 알린다.", "topics": ["정당 가입"]}
+{"id": "s052", "label": "POLITICAL", "template": "{WORKER_NAME}은(는) {POLITICAL}의 정당 활동을 위해 매월 둘째 주 토요일 근무에서 제외된다.", "topics": ["정당 가입"]}
+{"id": "s053", "label": "POLITICAL", "template": "근로자는 {POLITICAL} 지역위원회 간부로 활동하며, 정치 활동은 근무시간 외에만 한다.", "topics": ["정당 가입"]}
+{"id": "s054", "label": "POLITICAL", "template": "근로자는 {POLITICAL}의 후원회원이며, 회사는 이를 이유로 차별하지 않는다."}
+{"id": "s055", "label": "POLITICAL", "template": "근로자가 {POLITICAL} 후보로 공직선거에 출마하는 경우 휴직을 신청할 수 있다.", "topics": ["정당 가입"]}
+{"id": "s056", "label": "POLITICAL", "template": "근로자는 {POLITICAL}에 가입하였음을 회사에 알렸다."}
+{"id": "s057", "label": "POLITICAL", "template": "회사는 근로자에게 {POLITICAL} 탈퇴를 요구하지 않는다."}
+{"id": "s058", "label": "POLITICAL", "template": "근로자는 {POLITICAL} 활동을 이유로 근무시간 중 업무를 소홀히 하지 않는다.", "trigger_free": true}
+{"id": "s059", "label": "POLITICAL", "template": "{WORKER_NAME}은(는) {POLITICAL} 운영위원으로 활동하고 있어 주 1회 저녁 회의에 참석한다.", "trigger_free": true}
+{"id": "s060", "label": "POLITICAL", "template": "회사는 근로자가 {POLITICAL} 회원으로 집회에 참여한 사실을 인사 기록에 남기지 않는다.", "trigger_free": true}
